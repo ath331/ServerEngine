@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreTest", "CoreTest\CoreTe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileHandlerLib", "FileHandlerLib\FileHandlerLib.vcxproj", "{9054465E-5893-42E6-87DC-6426DFE7EA64}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Network", "Network\Network.vcxproj", "{5253D30C-15EF-4A97-82E6-87D3752F15C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{9054465E-5893-42E6-87DC-6426DFE7EA64}.Release|x64.Build.0 = Release|x64
 		{9054465E-5893-42E6-87DC-6426DFE7EA64}.Release|x86.ActiveCfg = Release|Win32
 		{9054465E-5893-42E6-87DC-6426DFE7EA64}.Release|x86.Build.0 = Release|Win32
+		{5253D30C-15EF-4A97-82E6-87D3752F15C7}.Debug|x64.ActiveCfg = Debug|x64
+		{5253D30C-15EF-4A97-82E6-87D3752F15C7}.Debug|x64.Build.0 = Debug|x64
+		{5253D30C-15EF-4A97-82E6-87D3752F15C7}.Debug|x86.ActiveCfg = Debug|Win32
+		{5253D30C-15EF-4A97-82E6-87D3752F15C7}.Debug|x86.Build.0 = Debug|Win32
+		{5253D30C-15EF-4A97-82E6-87D3752F15C7}.Release|x64.ActiveCfg = Release|x64
+		{5253D30C-15EF-4A97-82E6-87D3752F15C7}.Release|x64.Build.0 = Release|x64
+		{5253D30C-15EF-4A97-82E6-87D3752F15C7}.Release|x86.ActiveCfg = Release|Win32
+		{5253D30C-15EF-4A97-82E6-87D3752F15C7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
