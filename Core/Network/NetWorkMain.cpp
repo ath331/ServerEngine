@@ -33,7 +33,7 @@ typedef struct    // buffer info
 	int rwMode;    // READ or WRITE
 } PER_IO_DATA, * LPPER_IO_DATA;
 
-DWORD WINAPI EchoThreadMain( LPVOID CompletionPortIO );
+unsigned int WINAPI EchoThreadMain( LPVOID CompletionPortIO );
 void ErrorHandling( string message );
 
 int main( int argc, char* argv[] )
@@ -92,7 +92,7 @@ int main( int argc, char* argv[] )
 	return 0;
 }
 
-DWORD WINAPI EchoThreadMain( LPVOID pComPort )
+unsigned int WINAPI EchoThreadMain( LPVOID pComPort )
 {
 	HANDLE hComPort = (HANDLE)pComPort;
 	SOCKET sock;

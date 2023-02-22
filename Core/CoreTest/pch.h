@@ -9,6 +9,10 @@
 
 // 여기에 미리 컴파일하려는 헤더 추가
 
+#include <process.h>
+#include <winsock2.h>
+#include <windows.h>
+
 #include <iostream>
 #include <vector>
 #include <list>
@@ -16,6 +20,8 @@
 #include <set>
 #include <string>
 #include <algorithm>
+
+
 
 
 using namespace std;
