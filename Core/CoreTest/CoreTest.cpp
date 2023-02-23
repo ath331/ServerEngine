@@ -43,9 +43,12 @@ int main( int argc, char* argv[] )
 	LPPER_IO_DATA     ioInfo;
 	LPPER_HANDLE_DATA handleInfo;
 
-	SOCKET      hServSock;
-	SOCKADDR_IN servAdr;
-	int recvBytes, i, flags = 0;
+	SOCKET            hServSock;
+	SOCKADDR_IN       servAdr;
+
+	int               recvBytes = 0;
+	int               i         = 0;
+	int               flags     = 0;
 
 	if ( WSAStartup( MAKEWORD( 2, 2 ), &wsaData ) != 0 )
 		ErrorHandling( "WSAStartup() error!" );
@@ -62,7 +65,7 @@ int main( int argc, char* argv[] )
 	servAdr.sin_addr.s_addr = htonl( INADDR_ANY );
 	servAdr.sin_port        = htons( atoi( argv[ 1 ] ) );
 
-	bind( hServSock, (SOCKADDR*)&servAdr, sizeof( servAdr ) );
+	bind( hServSock, (SOCKADDR*)( &servAdr ), sizeof(servAdr));
 	listen( hServSock, 5 );
 
 	while ( 1 )
