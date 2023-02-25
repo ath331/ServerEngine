@@ -60,7 +60,7 @@ namespace AnT
 
 	private:
 		/// IO thread function
-		unsigned int WINAPI _RunEchoThreadMain( LPVOID pComPort );
+		static unsigned int WINAPI _RunEchoThreadMain( void* pComPort );
 
 		/// 에러 메시지 출력 함수
 		void _PrintError( string message );

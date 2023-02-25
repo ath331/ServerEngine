@@ -27,7 +27,7 @@ void AnT::Server::RunServer(
 	}
 
 	for ( int i = 0; i < ioThreadCount; i++ )
-		_beginthreadex( NULL, 0, _RunEchoThreadMain, (LPVOID)( hComPort ), 0, NULL );
+		_beginthreadex( NULL, 0, _RunEchoThreadMain, (void*)( hComPort ), 0, NULL );
 
 	hServSock = WSASocketW( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
 	memset( &servAdr, 0, sizeof( servAdr ) );
@@ -67,7 +67,7 @@ void AnT::Server::RunServer(
 ///////////////////////////////////////////////////////////////////////////
 // @brief     IO thread function
 ///////////////////////////////////////////////////////////////////////////
-unsigned int WINAPI AnT::Server::_RunEchoThreadMain( LPVOID pComPort )
+unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* pComPort )
 {
 	HANDLE            hComPort   = (HANDLE)( pComPort );
 	SOCKET            sock       = 0;
