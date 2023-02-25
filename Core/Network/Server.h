@@ -49,18 +49,20 @@ namespace AnT
 		SOCKADDR_IN       servAdr;
 
 		int               recvBytes = 0;
-		int               i = 0;
-		int               flags = 0;
+		int               flags     = 0;
 
 	public:
 		/// 서버시작 함수
-		void RunServer();
+		void RunServer(
+			string IP         = "127.0.0.1", 
+			string port       = "9999",
+			int ioThreadCount = 0 );
 
 	private:
 		/// IO thread function
-		unsigned int WINAPI EchoThreadMain( LPVOID pComPort );
+		unsigned int WINAPI _RunEchoThreadMain( LPVOID pComPort );
 
 		/// 에러 메시지 출력 함수
-		void ErrorHandling( string message );
+		void _PrintError( string message );
 	};
 }
