@@ -26,7 +26,7 @@ namespace AnT
 		{
 			SOCKET hClntSock;
 			SOCKADDR_IN clntAdr;
-		} PER_HANDLE_DATA, * LPPER_HANDLE_DATA;
+		} PER_HANDLE_DATA, *LPPER_HANDLE_DATA;
 
 		/// buffer info
 		typedef struct
@@ -36,7 +36,7 @@ namespace AnT
 			char buffer[ BUF_SIZE ];
 			/// READ or WRITE
 			int rwMode;
-		} PER_IO_DATA, * LPPER_IO_DATA;
+		} PER_IO_DATA, *LPPER_IO_DATA;
 
 	private:
 		WSADATA	          wsaData;
@@ -45,7 +45,7 @@ namespace AnT
 		LPPER_IO_DATA     ioInfo;
 		LPPER_HANDLE_DATA handleInfo;
 
-		SOCKET            hServSock;
+		SOCKET            servSock;
 		SOCKADDR_IN       servAdr;
 
 		int               recvBytes = 0;
@@ -54,9 +54,8 @@ namespace AnT
 	public:
 		/// 서버시작 함수
 		void RunServer(
-			string IP         = "127.0.0.1", 
-			string port       = "9999",
-			int ioThreadCount = 0 );
+			short port          = 9999,
+			int   ioThreadCount = 0 );
 
 	private:
 		/// IO thread function

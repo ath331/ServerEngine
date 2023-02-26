@@ -11,8 +11,7 @@
 // @brief     서버시작 함수
 ///////////////////////////////////////////////////////////////////////////
 void AnT::Server::RunServer(
-	string IP,
-	string port,
+	short  port,
 	int    ioThreadCount )
 {
 	if ( WSAStartup( MAKEWORD( 2, 2 ), &wsaData ) != 0 )
@@ -29,29 +28,35 @@ void AnT::Server::RunServer(
 	for ( int i = 0; i < ioThreadCount; i++ )
 		_beginthreadex( NULL, 0, _RunEchoThreadMain, (void*)( hComPort ), 0, NULL );
 
-	hServSock = WSASocketW( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
+	servSock = WSASocketW( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
 	memset( &servAdr, 0, sizeof( servAdr ) );
 	servAdr.sin_family      = AF_INET;
-	servAdr.sin_addr.s_addr = htonl( atoi( IP.c_str()   ) );
-	servAdr.sin_port        = htons( atoi( port.c_str() ) );
+	servAdr.sin_addr.s_addr = htonl( INADDR_ANY );
+	servAdr.sin_port        = htons( port );
 
-	bind( hServSock, (SOCKADDR*)( &servAdr ), sizeof( servAdr ) );
-	listen( hServSock, 5 );
+	// functional 헤더의 bind와 겹칠 수 있으므로 winsock의 bind인걸 명시해야함
+	::bind( servSock, (SOCKADDR*)( &servAdr ), sizeof( servAdr ) );
+	int errorCode = WSAGetLastError();
+
+	listen( servSock, 5 );
+	errorCode = WSAGetLastError();
 
 	while ( 1 )
 	{
-		SOCKET      hClntSock;
+		SOCKET      clntSock;
 		SOCKADDR_IN clntAdr;
+		memset( &clntAdr, 0, sizeof( clntAdr ) );
 
 		int addrLen = sizeof( clntAdr );
 
-		hClntSock = accept( hServSock, (SOCKADDR*)( &clntAdr ), &addrLen );
+		clntSock = accept( servSock, (SOCKADDR*)( &clntAdr ), &addrLen );
+		errorCode = WSAGetLastError();
 
 		handleInfo = (LPPER_HANDLE_DATA)( malloc( sizeof( PER_HANDLE_DATA ) ) );
-		handleInfo->hClntSock = hClntSock;
+		handleInfo->hClntSock = clntSock;
 		memcpy( &( handleInfo->clntAdr ), &clntAdr, addrLen );
 
-		CreateIoCompletionPort( (HANDLE)( hClntSock ), hComPort, (ULONG_PTR)( handleInfo ), 0 );
+		CreateIoCompletionPort( (HANDLE)( clntSock ), hComPort, (ULONG_PTR)( handleInfo ), 0 );
 
 		ioInfo = (LPPER_IO_DATA)( malloc( sizeof( PER_IO_DATA ) ) );
 		memset( &( ioInfo->overlapped ), 0, sizeof( OVERLAPPED ) );
