@@ -17,7 +17,7 @@ void AnT::Server::RunServer(
 	if ( WSAStartup( MAKEWORD( 2, 2 ), &wsaData ) != 0 )
 		_PrintError( "WSAStartup() error!" );
 
-	hComPort = CreateIoCompletionPort( INVALID_HANDLE_VALUE, NULL, 0, 0 );
+	comPort = CreateIoCompletionPort( INVALID_HANDLE_VALUE, NULL, 0, 0 );
 
 	if ( !ioThreadCount )
 	{
@@ -26,7 +26,7 @@ void AnT::Server::RunServer(
 	}
 
 	for ( int i = 0; i < ioThreadCount; i++ )
-		_beginthreadex( NULL, 0, _RunEchoThreadMain, (void*)( hComPort ), 0, NULL );
+		_beginthreadex( NULL, 0, _RunEchoThreadMain, (void*)( comPort ), 0, NULL );
 
 	servSock = WSASocketW( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
 	memset( &servAdr, 0, sizeof( servAdr ) );
@@ -35,11 +35,11 @@ void AnT::Server::RunServer(
 	servAdr.sin_port        = htons( port );
 
 	// functional 헤더의 bind와 겹칠 수 있으므로 winsock의 bind인걸 명시해야함
-	::bind( servSock, (SOCKADDR*)( &servAdr ), sizeof( servAdr ) );
-	int errorCode = WSAGetLastError();
+	if ( ::bind(servSock, (SOCKADDR*)( &servAdr ), sizeof(servAdr)) == SOCKET_ERROR )
+		_PrintError( "Bind() error!" );
 
-	listen( servSock, 5 );
-	errorCode = WSAGetLastError();
+	if ( listen( servSock, 5 ) == SOCKET_ERROR )
+		_PrintError( "Listen() error!" );
 
 	while ( 1 )
 	{
@@ -50,21 +50,20 @@ void AnT::Server::RunServer(
 		int addrLen = sizeof( clntAdr );
 
 		clntSock = accept( servSock, (SOCKADDR*)( &clntAdr ), &addrLen );
-		errorCode = WSAGetLastError();
 
-		handleInfo = (LPPER_HANDLE_DATA)( malloc( sizeof( PER_HANDLE_DATA ) ) );
-		handleInfo->hClntSock = clntSock;
+		handleInfo = (LPPER_HANDLE_DATA)(new PER_HANDLE_DATA );
+		handleInfo->clntSock = clntSock;
 		memcpy( &( handleInfo->clntAdr ), &clntAdr, addrLen );
 
-		CreateIoCompletionPort( (HANDLE)( clntSock ), hComPort, (ULONG_PTR)( handleInfo ), 0 );
+		CreateIoCompletionPort( (HANDLE)( clntSock ), comPort, (ULONG_PTR)( handleInfo ), 0 );
 
-		ioInfo = (LPPER_IO_DATA)( malloc( sizeof( PER_IO_DATA ) ) );
+		ioInfo = (LPPER_IO_DATA)( new PER_IO_DATA );
 		memset( &( ioInfo->overlapped ), 0, sizeof( OVERLAPPED ) );
 		ioInfo->wsaBuf.len = BUF_SIZE;
 		ioInfo->wsaBuf.buf = ioInfo->buffer;
-		ioInfo->rwMode     = READ;
+		ioInfo->ioMode = EIoMode::Read;
 
-		WSARecv( handleInfo->hClntSock, &( ioInfo->wsaBuf ),
+		WSARecv( handleInfo->clntSock, &( ioInfo->wsaBuf ),
 				 1, (LPDWORD)( &recvBytes ), (LPDWORD)( &flags ), &( ioInfo->overlapped ), NULL );
 	}
 }
@@ -72,9 +71,9 @@ void AnT::Server::RunServer(
 ///////////////////////////////////////////////////////////////////////////
 // @brief     IO thread function
 ///////////////////////////////////////////////////////////////////////////
-unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* pComPort )
+unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 {
-	HANDLE            hComPort   = (HANDLE)( pComPort );
+	HANDLE            comPort    = (HANDLE)( comPortPtr );
 	SOCKET            sock       = 0;
 	DWORD             bytesTrans = 0;
 	LPPER_HANDLE_DATA handleInfo;
@@ -87,17 +86,18 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* pComPort )
 	while ( 1 )
 	{
 		GetQueuedCompletionStatus(
-			hComPort, 
+			comPort,
 			&bytesTrans,
 			(PULONG_PTR)( &handleInfo ), 
 			(LPOVERLAPPED*)( &ioInfo ), 
 			INFINITE );
 
-		sock = handleInfo->hClntSock;
+		sock = handleInfo->clntSock;
 
-		if ( ioInfo->rwMode == READ )
+		if ( ioInfo->ioMode == EIoMode::Read )
 		{
 			puts( "message received!" );
+
 			if ( bytesTrans == 0 )    // EOF 전송 시
 			{
 				closesocket( sock );
@@ -108,23 +108,24 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* pComPort )
 
 			memset( &( ioInfo->overlapped ), 0, sizeof( OVERLAPPED ) );
 			ioInfo->wsaBuf.len = bytesTrans;
-			ioInfo->rwMode = WRITE;
+			ioInfo->ioMode = EIoMode::Write;
 
 			WSASend( sock, &( ioInfo->wsaBuf ),
 					 1, NULL, 0, &( ioInfo->overlapped ), NULL );
 
-			ioInfo = (LPPER_IO_DATA)( malloc( sizeof( PER_IO_DATA ) ) );
+			ioInfo = (LPPER_IO_DATA)( new PER_IO_DATA );
 			memset( &( ioInfo->overlapped ), 0, sizeof( OVERLAPPED ) );
 			ioInfo->wsaBuf.len = BUF_SIZE;
 			ioInfo->wsaBuf.buf = ioInfo->buffer;
-			ioInfo->rwMode = READ;
+			ioInfo->ioMode = EIoMode::Read;
+
 			WSARecv( sock, &( ioInfo->wsaBuf ),
 					 1, NULL, &flags, &( ioInfo->overlapped ), NULL );
 		}
 		else
 		{
 			puts( "message sent!" );
-			free( ioInfo );
+			delete( ioInfo );
 		}
 	}
 	return 0;
@@ -135,6 +136,7 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* pComPort )
 ///////////////////////////////////////////////////////////////////////////
 void AnT::Server::_PrintError( string message )
 {
+	cout << "ErrorCode : " << WSAGetLastError() << endl;
 	fputs( message.c_str(), stderr );
 	fputc( '\n', stderr );
 	exit( 1 );

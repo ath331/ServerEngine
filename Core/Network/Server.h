@@ -11,10 +11,15 @@
 #include <windows.h>
 
 
-#define BUF_SIZE 100
-#define READ	3
-#define	WRITE	5
+#define BUF_SIZE 1024 * 5
 
+
+enum class EIoMode
+{
+	Read  = 0, //< 데이터 수신
+	Write = 1, //< 데이터 송신
+	Max        //< 이 열거값의 최대값
+};
 
 namespace AnT
 {
@@ -24,7 +29,7 @@ namespace AnT
 		/// socket info
 		typedef struct
 		{
-			SOCKET hClntSock;
+			SOCKET clntSock;
 			SOCKADDR_IN clntAdr;
 		} PER_HANDLE_DATA, *LPPER_HANDLE_DATA;
 
@@ -35,12 +40,12 @@ namespace AnT
 			WSABUF wsaBuf;
 			char buffer[ BUF_SIZE ];
 			/// READ or WRITE
-			int rwMode;
+			EIoMode ioMode;
 		} PER_IO_DATA, *LPPER_IO_DATA;
 
 	private:
 		WSADATA	          wsaData;
-		HANDLE            hComPort;
+		HANDLE            comPort;
 		SYSTEM_INFO       sysInfo;
 		LPPER_IO_DATA     ioInfo;
 		LPPER_HANDLE_DATA handleInfo;
@@ -58,10 +63,14 @@ namespace AnT
 			int   ioThreadCount = 0 );
 
 	private:
-		/// IO thread function
-		static unsigned int WINAPI _RunEchoThreadMain( void* pComPort );
-
 		/// 에러 메시지 출력 함수
 		void _PrintError( string message );
+
+		/// 비동기 수신
+		int AsyncRecv( SOCKET sock, LPPER_IO_DATA ioInfo, int bufferCount,  );
+		
+	private:
+		/// IO thread function
+		static unsigned int WINAPI _RunEchoThreadMain( void* pComPort );
 	};
 }

@@ -13,7 +13,7 @@
 int main( int argc, char* argv[] )
 {
 	AnT::Server server;
-	server.RunServer();
+	server.RunServer( 9999, 5 );
 
 	return 0;
 }
