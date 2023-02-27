@@ -27,34 +27,42 @@ namespace AnT
 	{
 	public:
 		/// socket info
-		typedef struct
+		typedef struct SockData
 		{
-			SOCKET clntSock;
-			SOCKADDR_IN clntAdr;
-		} PER_HANDLE_DATA, *LPPER_HANDLE_DATA;
+			SOCKET      sock;
+			SOCKADDR_IN sockAdr;
+		};
 
 		/// buffer info
-		typedef struct
+		typedef struct IOData
 		{
 			OVERLAPPED overlapped;
-			WSABUF wsaBuf;
-			char buffer[ BUF_SIZE ];
+			WSABUF     wsaBuf;
+			char       buffer[ BUF_SIZE ];
+
 			/// READ or WRITE
-			EIoMode ioMode;
-		} PER_IO_DATA, *LPPER_IO_DATA;
+			EIoMode    ioMode;
+
+			// 수신 바이트
+			int        recvBytes = 0;
+
+			/// 플래그
+			int        flags = 0;
+		};
+
+	public:
+		/// 생성자
+		Server();
 
 	private:
 		WSADATA	          wsaData;
 		HANDLE            comPort;
 		SYSTEM_INFO       sysInfo;
-		LPPER_IO_DATA     ioInfo;
-		LPPER_HANDLE_DATA handleInfo;
+		IOData*           ioInfo;
+		HandleData*       handleInfo;
 
 		SOCKET            servSock;
 		SOCKADDR_IN       servAdr;
-
-		int               recvBytes = 0;
-		int               flags     = 0;
 
 	public:
 		/// 서버시작 함수
@@ -66,8 +74,25 @@ namespace AnT
 		/// 에러 메시지 출력 함수
 		void _PrintError( string message );
 
+		/// 안전한 포인터 해제
+		void _DeleteSafe( void* ptr );
+
+	/// NetWork Function
+	private:
+		/// bind 함수를 실행한다
+		void _BindSocket(SOCKET sock, SOCKADDR_IN servAdr );
+
+		/// listen 함수를 실행한다.
+		void _ListenScoket( SOCKET sock, int bagLog = 5 );
+
+		/// 컴플리션 포트 핸들을 생성한다.
+		HANDLE _MakeCompletionPort();
+
+		/// 컴플리션 포트에 소켓을 등록한다.
+		void _RegisterCompletionPort( SOCKET sock, HandleData* handleInfo );
+
 		/// 비동기 수신
-		int AsyncRecv( SOCKET sock, LPPER_IO_DATA ioInfo, int bufferCount,  );
+		void _AsyncRecv( SOCKET sock, IOData* ioInfo, int bufferCount = 1 );
 		
 	private:
 		/// IO thread function
