@@ -6,58 +6,28 @@
 #pragma once
 
 
+#include "IOData.h"
+#include "SocketData.h"
 #include <process.h>
-#include <winsock2.h>
 #include <windows.h>
 
-
-#define BUF_SIZE 1024 * 5
-
-
-enum class EIoMode
-{
-	Read  = 0, //< 데이터 수신
-	Write = 1, //< 데이터 송신
-	Max        //< 이 열거값의 최대값
-};
 
 namespace AnT
 {
 	class Server
 	{
 	public:
-		/// socket info
-		typedef struct SockData
-		{
-			SOCKET      sock;
-			SOCKADDR_IN sockAdr;
-		};
-
-		/// buffer info
-		typedef struct IOData
-		{
-			OVERLAPPED overlapped;
-			WSABUF     wsaBuf;
-			char       buffer[ BUF_SIZE ];
-
-			EIoMode    ioMode;        ///< READ or WRITE
-			int        recvBytes = 0; ///< 수신 바이트
-			int        flags     = 0; ///< 플래그
-		};
-
-	public:
 		/// 생성자
 		Server();
 
 	private:
-		WSADATA	          wsaData;
-		HANDLE            comPort;
-		SYSTEM_INFO       sysInfo;
-		IOData*           ioInfo;
-		SockData*         handleInfo;
+		WSADATA	          m_wsaData;        //< 
+		HANDLE            m_comPort;        //< 컴플리션 포트
+		SYSTEM_INFO       m_sysInfo;        //< 
+		IOData*           m_ioInfo;	        //< 
+		SocketData*       m_handleInfo;     //< 
 
-		SOCKET            servSock;
-		SOCKADDR_IN       servAdr;
+		SocketData*       m_serverSockData; //< 서버 소켓 데이터
 
 	public:
 		/// 서버시작 함수
@@ -70,27 +40,27 @@ namespace AnT
 		void _PrintError( string message );
 
 		/// 안전한 포인터 해제
-		void _DeleteSafe( void* ptr );
+		static void _DeleteSafe( void* ptr );
 
 	/// NetWork Function
 	private:
 		/// bind 함수를 실행한다
-		void _BindSocket(SOCKET sock, SOCKADDR_IN servAdr );
+		void _BindSocket( SocketData* sockData );
 
 		/// listen 함수를 실행한다.
-		void _ListenScoket( SOCKET sock, int bagLog = 5 );
+		void _ListenScoket( SocketData* sockData, int bagLog = 5 );
 
 		/// 컴플리션 포트 핸들을 생성한다.
 		HANDLE _MakeCompletionPort();
 
 		/// 컴플리션 포트에 소켓을 등록한다.
-		void _RegisterCompletionPort( SOCKET sock, SockData* handleInfo );
+		void _RegisterCompletionPort( SOCKET sock, SocketData* handleInfo );
 
-		/// 비동기 수신
-		void _AsyncRecv( SOCKET sock, IOData* ioInfo, int bufferCount = 1 );
-		
 	private:
 		/// IO thread function
 		static unsigned int WINAPI _RunEchoThreadMain( void* pComPort );
+
+		/// 비동기 수신
+		static void _AsyncRecv( SOCKET sock, IOData* ioInfo, int bufferCount = 1 );
 	};
 }
