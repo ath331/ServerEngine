@@ -47,8 +47,5 @@
     <ClCompile Include="IOData.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SocketData.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

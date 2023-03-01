@@ -19,6 +19,8 @@ AnT::IOData::IOData( EIOMode ioMode )
 
 	m_wsaBuf.len = BUF_SIZE;
 	m_wsaBuf.buf = m_buffer;
+
+	cout << "@@@@@@@ IOData Make @@@@@@" << endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////

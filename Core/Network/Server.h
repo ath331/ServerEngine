@@ -62,5 +62,8 @@ namespace AnT
 
 		/// 비동기 수신
 		static void _AsyncRecv( SOCKET sock, IOData* ioInfo, int bufferCount = 1 );
+
+		/// 비동기 송신
+		static void _AsyncSend( SOCKET sock, IOData* ioInfo, int sendSize );
 	};
 }

@@ -104,16 +104,15 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 				continue;
 			}
 
-			ioInfo->SetWsaBufLen( bytesTrans );
-			ioInfo->SetIOMode( EIOMode::Write );
-
-			WSASend( sock, ioInfo->GetWsaBufPtr(),
-					 1, NULL, 0, ioInfo->GetOverlappedPtr(), NULL);
+			_AsyncSend( sock, ioInfo, bytesTrans );
+		}
+		else if ( ioInfo->GetIOMode() == EIOMode::Write )
+		{
+			puts( "message sent!" );
 
 			ioInfo = new IOData;
-			ioInfo->SetIOMode( EIOMode::Read );
-
 			_AsyncRecv( sock, ioInfo );
+			delete( ioInfo );
 		}
 		else
 		{
@@ -196,6 +195,8 @@ void AnT::Server::_AsyncRecv( SOCKET sock, IOData* ioInfo, int bufferCount )
 	if ( !ioInfo )
 		return;
 
+	ioInfo->SetIOMode( EIOMode::Read );
+
 	int recvResult = WSARecv(
 		sock,
 		ioInfo->GetWsaBufPtr(),
@@ -207,7 +208,36 @@ void AnT::Server::_AsyncRecv( SOCKET sock, IOData* ioInfo, int bufferCount )
 
 	if ( !recvResult )
 	{
-		cout << "ErrorCode : " << WSAGetLastError() << endl;
+		cout << "Recv is fail!! ErrorCode : " << WSAGetLastError() << endl;
 		_DeleteSafe( ioInfo );
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////
+// @brief     비동기 송신
+///////////////////////////////////////////////////////////////////////////
+void AnT::Server::_AsyncSend( SOCKET sock, IOData* ioInfo, int sendSize )
+{
+	if ( !ioInfo )
+		return;
+
+	if ( sendSize <= 0 )
+		return;
+
+	ioInfo->SetWsaBufLen( sendSize );
+	ioInfo->SetIOMode( EIOMode::Write );
+
+	int sendResult = WSASend( 
+		sock, 
+		ioInfo->GetWsaBufPtr(),
+		1, 
+		NULL, 
+		0, 
+		ioInfo->GetOverlappedPtr(), 
+		NULL );
+
+	if ( sendResult != 0 )
+	{
+		cout << "Send is fail!! ErrorCode : " << WSAGetLastError() << endl;
 	}
 }

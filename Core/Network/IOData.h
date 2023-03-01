@@ -22,6 +22,12 @@ namespace AnT
 		/// 생성자
 		IOData( EIOMode ioMode = EIOMode::Read );
 
+		/// 소멸자
+		~IOData()
+		{
+			cout << "소멸자!" << endl;
+		}
+
 	public:
 		/// OVERLAPPED 초기화
 		void InitializeOverlapped();
