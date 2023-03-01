@@ -54,15 +54,15 @@ void AnT::Server::RunServer(
 
 		clintSocketData.sock = accept( m_serverSockData->sock, (SOCKADDR*)( &clintSocketData.sockAdr ), &addrLen );
 
-		m_handleInfo = new SocketData;
-		m_handleInfo->sock = clintSocketData.sock;
-		memcpy( &( m_handleInfo->sockAdr ), &clintSocketData.sockAdr, addrLen );
+		m_socketData = new SocketData;
+		m_socketData->sock = clintSocketData.sock;
+		memcpy( &( m_socketData->sockAdr ), &clintSocketData.sockAdr, addrLen );
 
-		_RegisterCompletionPort( clintSocketData.sock, m_handleInfo );
+		_RegisterCompletionPort( clintSocketData.sock, m_socketData );
 			
 		m_ioInfo = new IOData( EIOMode::Read );
 
-		_AsyncRecv( m_handleInfo->sock, m_ioInfo );
+		_AsyncRecv( m_socketData->sock, m_ioInfo );
 	}
 }
 
@@ -72,11 +72,9 @@ void AnT::Server::RunServer(
 unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 {
 	HANDLE            comPort    = (HANDLE)( comPortPtr );
-	SOCKET            sock       = 0;
 	DWORD             bytesTrans = 0;
 	SocketData*       socketData;
-	IOData*           ioInfo;
-	DWORD             flags = 0;
+	IOData*           ioData;
 
 	while ( 1 )
 	{
@@ -84,43 +82,50 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 			comPort,
 			&bytesTrans,
 			(PULONG_PTR)( &socketData ),
-			(LPOVERLAPPED*)( &ioInfo ),
+			(LPOVERLAPPED*)( &ioData ),
 			INFINITE );
 
 		if ( !socketData )
 			continue;
 
-		sock = socketData->sock;
-
-		if ( ioInfo->GetIOMode() == EIOMode::Read )
+		if ( ioData->GetIOMode() == EIOMode::Read )
 		{
 			puts( "message received!" );
 
 			if ( bytesTrans == 0 )    // EOF 전송 시
 			{
-				closesocket( sock );
-				free( socketData );
-				delete( ioInfo );
+				_CloseSocket( socketData, ioData );
 				continue;
 			}
 
-			_AsyncSend( sock, ioInfo, bytesTrans );
+			_AsyncSend( socketData->sock, ioData, bytesTrans );
+
+			ioData = new IOData;
+			_AsyncRecv( socketData->sock, ioData );
 		}
-		else if ( ioInfo->GetIOMode() == EIOMode::Write )
+		else if ( ioData->GetIOMode() == EIOMode::Write )
 		{
 			puts( "message sent!" );
-
-			ioInfo = new IOData;
-			_AsyncRecv( sock, ioInfo );
-			delete( ioInfo );
+			delete( ioData );
 		}
 		else
 		{
-			puts( "message sent!" );
-			delete( ioInfo );
+			puts( "Invalid IOMode" );
 		}
 	}
 	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////
+// @brief     소켓을 종료시킨다.
+///////////////////////////////////////////////////////////////////////////
+void AnT::Server::_CloseSocket( SocketData* socketData, IOData* ioData )
+{
+	if ( socketData )
+		closesocket( socketData->sock );
+
+	_DeleteSafe( socketData );
+	_DeleteSafe( ioData );
 }
 
 ///////////////////////////////////////////////////////////////////////////
