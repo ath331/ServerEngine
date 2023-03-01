@@ -40,14 +40,9 @@ namespace AnT
 			WSABUF     wsaBuf;
 			char       buffer[ BUF_SIZE ];
 
-			/// READ or WRITE
-			EIoMode    ioMode;
-
-			// 수신 바이트
-			int        recvBytes = 0;
-
-			/// 플래그
-			int        flags = 0;
+			EIoMode    ioMode;        ///< READ or WRITE
+			int        recvBytes = 0; ///< 수신 바이트
+			int        flags     = 0; ///< 플래그
 		};
 
 	public:
@@ -59,7 +54,7 @@ namespace AnT
 		HANDLE            comPort;
 		SYSTEM_INFO       sysInfo;
 		IOData*           ioInfo;
-		HandleData*       handleInfo;
+		SockData*         handleInfo;
 
 		SOCKET            servSock;
 		SOCKADDR_IN       servAdr;
@@ -89,7 +84,7 @@ namespace AnT
 		HANDLE _MakeCompletionPort();
 
 		/// 컴플리션 포트에 소켓을 등록한다.
-		void _RegisterCompletionPort( SOCKET sock, HandleData* handleInfo );
+		void _RegisterCompletionPort( SOCKET sock, SockData* handleInfo );
 
 		/// 비동기 수신
 		void _AsyncRecv( SOCKET sock, IOData* ioInfo, int bufferCount = 1 );

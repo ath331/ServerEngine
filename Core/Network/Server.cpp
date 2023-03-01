@@ -55,9 +55,9 @@ void AnT::Server::RunServer(
 
 		clntSock = accept( servSock, (SOCKADDR*)( &clntAdr ), &addrLen );
 
-		handleInfo = new HandleData;
-		handleInfo->clntSock = clntSock;
-		memcpy( &( handleInfo->clntAdr ), &clntAdr, addrLen );
+		handleInfo = new SockData;
+		handleInfo->sock = clntSock;
+		memcpy( &( handleInfo->sockAdr ), &clntAdr, addrLen );
 
 		_RegisterCompletionPort( clntSock, handleInfo );
 
@@ -67,7 +67,7 @@ void AnT::Server::RunServer(
 		ioInfo->wsaBuf.buf = ioInfo->buffer;
 		ioInfo->ioMode = EIoMode::Read;
 
-		_AsyncRecv( handleInfo->clntSock, ioInfo );
+		_AsyncRecv( handleInfo->sock, ioInfo );
 	}
 }
 
@@ -79,23 +79,23 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 	HANDLE            comPort    = (HANDLE)( comPortPtr );
 	SOCKET            sock       = 0;
 	DWORD             bytesTrans = 0;
-	HandleData*       handleInfo;
+	SockData*         sockData;
 	IOData*           ioInfo;
 	DWORD             flags = 0;
 
-	memset( &handleInfo, 0, sizeof( HandleData* ) );
-	memset( &ioInfo,     0, sizeof( IOData*     ) );
+	memset( &sockData,   0, sizeof( SockData* ) );
+	memset( &ioInfo,     0, sizeof( IOData*   ) );
 
 	while ( 1 )
 	{
 		GetQueuedCompletionStatus(
 			comPort,
 			&bytesTrans,
-			(PULONG_PTR)( &handleInfo ),
+			(PULONG_PTR)( &sockData ),
 			(LPOVERLAPPED*)( &ioInfo ),
 			INFINITE );
 
-		sock = handleInfo->clntSock;
+		sock = sockData->sock;
 
 		if ( ioInfo->ioMode == EIoMode::Read )
 		{
@@ -104,7 +104,7 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 			if ( bytesTrans == 0 )    // EOF 전송 시
 			{
 				closesocket( sock );
-				free( handleInfo );
+				free( sockData );
 				delete( ioInfo );
 				continue;
 			}
@@ -187,7 +187,7 @@ HANDLE AnT::Server::_MakeCompletionPort()
 ///////////////////////////////////////////////////////////////////////////
 // @brief     컴플리션 포트에 소켓을 등록한다.
 ///////////////////////////////////////////////////////////////////////////
-void AnT::Server::_RegisterCompletionPort( SOCKET sock, HandleData* handleInfo )
+void AnT::Server::_RegisterCompletionPort( SOCKET sock, SockData* handleInfo )
 {
 	CreateIoCompletionPort( (HANDLE)( sock ), comPort, (ULONG_PTR)( handleInfo ), 0 );
 }
@@ -198,7 +198,7 @@ void AnT::Server::_RegisterCompletionPort( SOCKET sock, HandleData* handleInfo )
 void AnT::Server::_AsyncRecv( SOCKET sock, IOData* ioInfo, int bufferCount )
 {
 	int recvResult = WSARecv(
-		handleInfo->clntSock,
+		sock,
 		&( ioInfo->wsaBuf ),
 		bufferCount,
 		(LPDWORD)( &ioInfo->recvBytes ),
