@@ -25,7 +25,7 @@ namespace AnT
 		HANDLE            m_comPort;        //< 컴플리션 포트
 		SYSTEM_INFO       m_sysInfo;        //< 
 		IOData*           m_ioInfo;	        //< 
-		SocketData*       m_handleInfo;     //< 
+		SocketData*       m_socketData;     //< 
 
 		SocketData*       m_serverSockData; //< 서버 소켓 데이터
 

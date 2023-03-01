@@ -113,6 +113,7 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 			puts( "Invalid IOMode" );
 		}
 	}
+
 	return 0;
 }
 
