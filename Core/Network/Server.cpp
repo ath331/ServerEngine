@@ -5,8 +5,7 @@
 
 #include "pch.h"
 #include "Server.h"
-// #include "IOData.h"
-// #include "SocketData.h"
+#include <mswsock.h>
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -47,22 +46,36 @@ void AnT::Server::RunServer(
 
 	_ListenScoket( m_serverSockData );
 
-	while ( 1 )
+	//while ( 1 )
 	{
 		SocketData clintSocketData;
 		int addrLen = sizeof( clintSocketData.sockAdr );
 
-		clintSocketData.sock = accept( m_serverSockData->sock, (SOCKADDR*)( &clintSocketData.sockAdr ), &addrLen );
+		// clintSocketData.sock = accept( m_serverSockData->sock, (SOCKADDR*)( &clintSocketData.sockAdr ), &addrLen );
+		// 
+		// m_socketData = new SocketData;
+		// m_socketData->sock = clintSocketData.sock;
+		// memcpy( &( m_socketData->sockAdr ), &clintSocketData.sockAdr, addrLen );
+		// 
+		// _RegisterCompletionPort( clintSocketData.sock, m_socketData );
+		// 	
+		// m_ioInfo = new IOData( EIOMode::Read );
+		// 
+		// _AsyncRecv( m_socketData->sock, m_ioInfo );
 
-		m_socketData = new SocketData;
-		m_socketData->sock = clintSocketData.sock;
-		memcpy( &( m_socketData->sockAdr ), &clintSocketData.sockAdr, addrLen );
+		char testBuffer[ BUF_SIZE ];
 
-		_RegisterCompletionPort( clintSocketData.sock, m_socketData );
-			
-		m_ioInfo = new IOData( EIOMode::Read );
+		m_ioInfo = new IOData( EIOMode::Accept );
 
-		_AsyncRecv( m_socketData->sock, m_ioInfo );
+		AcceptEx(
+			m_serverSockData->sock,
+			clintSocketData.sock,
+			&testBuffer,
+			0,
+			sizeof( clintSocketData.sockAdr ) + 16,
+			sizeof( clintSocketData.sockAdr ) + 16,
+			NULL,
+			reinterpret_cast<LPOVERLAPPED>( &m_ioInfo ) );
 	}
 }
 
@@ -88,8 +101,9 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 		if ( !socketData )
 			continue;
 
-		if      ( ioData->GetIOMode() == EIOMode::Read  ) _AsyncRecvCallback( socketData, ioData, bytesTrans );
-		else if ( ioData->GetIOMode() == EIOMode::Write ) _AsyncSendCallback( socketData, ioData, bytesTrans );
+		if      ( ioData->GetIOMode() == EIOMode::Read   ) _AsyncRecvCallback  ( socketData, ioData, bytesTrans );
+		else if ( ioData->GetIOMode() == EIOMode::Write  ) _AsyncSendCallback  ( socketData, ioData, bytesTrans );
+		else if ( ioData->GetIOMode() == EIOMode::Accept ) _AsyncAcceptCallback( socketData, ioData, bytesTrans );
 	}
 
 	return 0;
@@ -234,6 +248,20 @@ void AnT::Server::_AsyncSendCallback( SocketData* socketData, IOData* ioData, in
 	puts( "message sent!" );
 
 	_DeleteSafe( ioData );
+}
+
+///////////////////////////////////////////////////////////////////////////
+// @brief     비동기 Accept 완료
+///////////////////////////////////////////////////////////////////////////
+void AnT::Server::_AsyncAcceptCallback( SocketData* socketData, IOData* ioData, int bytesSize )
+{
+	if ( !socketData )
+		return;
+
+	if ( !ioData )
+		return;
+
+	_AsyncRecv( socketData->sock, ioData );
 }
 
 ///////////////////////////////////////////////////////////////////////////
