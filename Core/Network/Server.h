@@ -65,9 +65,15 @@ namespace AnT
 		static void _CloseSocket( SocketData* socketData, IOData* ioData );
 
 		/// 비동기 수신
-		static void _AsyncRecv( SOCKET sock, IOData* ioInfo, int bufferCount = 1 );
+		static void _AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount = 1 );
 
 		/// 비동기 송신
-		static void _AsyncSend( SOCKET sock, IOData* ioInfo, int sendSize );
+		static void _AsyncSend( SOCKET sock, IOData* ioData, int sendSize );
+
+		/// 비동기 수신 완료
+		static void _AsyncRecvCallback( SocketData* socketData, IOData* ioData, int bytesSize );
+
+		/// 비동기 송신 완료
+		static void _AsyncSendCallback( SocketData* socketData, IOData* ioData, int bytesSize );
 	};
 }

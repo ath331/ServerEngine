@@ -88,30 +88,8 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 		if ( !socketData )
 			continue;
 
-		if ( ioData->GetIOMode() == EIOMode::Read )
-		{
-			puts( "message received!" );
-
-			if ( bytesTrans == 0 )    // EOF 전송 시
-			{
-				_CloseSocket( socketData, ioData );
-				continue;
-			}
-
-			_AsyncSend( socketData->sock, ioData, bytesTrans );
-
-			ioData = new IOData;
-			_AsyncRecv( socketData->sock, ioData );
-		}
-		else if ( ioData->GetIOMode() == EIOMode::Write )
-		{
-			puts( "message sent!" );
-			delete( ioData );
-		}
-		else
-		{
-			puts( "Invalid IOMode" );
-		}
+		if      ( ioData->GetIOMode() == EIOMode::Read  ) _AsyncRecvCallback( socketData, ioData, bytesTrans );
+		else if ( ioData->GetIOMode() == EIOMode::Write ) _AsyncSendCallback( socketData, ioData, bytesTrans );
 	}
 
 	return 0;
@@ -196,54 +174,83 @@ void AnT::Server::_RegisterCompletionPort( SOCKET sock, SocketData* sockData )
 ///////////////////////////////////////////////////////////////////////////
 // @brief     비동기 수신
 ///////////////////////////////////////////////////////////////////////////
-void AnT::Server::_AsyncRecv( SOCKET sock, IOData* ioInfo, int bufferCount )
+void AnT::Server::_AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount )
 {
-	if ( !ioInfo )
+	if ( !ioData )
 		return;
 
-	ioInfo->SetIOMode( EIOMode::Read );
+	ioData->SetIOMode( EIOMode::Read );
 
 	int recvResult = WSARecv(
 		sock,
-		ioInfo->GetWsaBufPtr(),
+		ioData->GetWsaBufPtr(),
 		bufferCount,
-		(LPDWORD)( ioInfo->GetRecvBytesPtr() ),
-		(LPDWORD)( ioInfo->GetFlagPtr() ),
-		ioInfo->GetOverlappedPtr(),
+		(LPDWORD)( ioData->GetRecvBytesPtr() ),
+		(LPDWORD)( ioData->GetFlagPtr() ),
+		ioData->GetOverlappedPtr(),
 		NULL );
 
 	if ( !recvResult )
 	{
 		cout << "Recv is fail!! ErrorCode : " << WSAGetLastError() << endl;
-		_DeleteSafe( ioInfo );
+		_DeleteSafe( ioData );
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////
 // @brief     비동기 송신
 ///////////////////////////////////////////////////////////////////////////
-void AnT::Server::_AsyncSend( SOCKET sock, IOData* ioInfo, int sendSize )
+void AnT::Server::_AsyncSend( SOCKET sock, IOData* ioData, int sendSize )
 {
-	if ( !ioInfo )
+	if ( !ioData )
 		return;
 
 	if ( sendSize <= 0 )
 		return;
 
-	ioInfo->SetWsaBufLen( sendSize );
-	ioInfo->SetIOMode( EIOMode::Write );
+	ioData->SetWsaBufLen( sendSize );
+	ioData->SetIOMode( EIOMode::Write );
 
 	int sendResult = WSASend( 
 		sock, 
-		ioInfo->GetWsaBufPtr(),
+		ioData->GetWsaBufPtr(),
 		1, 
 		NULL, 
 		0, 
-		ioInfo->GetOverlappedPtr(), 
+		ioData->GetOverlappedPtr(),
 		NULL );
 
 	if ( sendResult != 0 )
 	{
 		cout << "Send is fail!! ErrorCode : " << WSAGetLastError() << endl;
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////
+// @brief     비동기 송신 완료
+///////////////////////////////////////////////////////////////////////////
+void AnT::Server::_AsyncSendCallback( SocketData* socketData, IOData* ioData, int bytesSize )
+{
+	puts( "message sent!" );
+
+	_DeleteSafe( ioData );
+}
+
+///////////////////////////////////////////////////////////////////////////
+// @brief     비동기 수신 완료
+///////////////////////////////////////////////////////////////////////////
+void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, int bytesSize )
+{
+	puts( "message received!" );
+
+	if ( !bytesSize )
+	{
+		_CloseSocket( socketData, ioData );
+		return;
+	}
+
+	_AsyncSend( socketData->sock, ioData, bytesSize );
+
+	ioData = new IOData;
+	_AsyncRecv( socketData->sock, ioData );
 }
