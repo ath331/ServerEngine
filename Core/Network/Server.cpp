@@ -33,36 +33,36 @@ void AnT::Server::RunServer(
 		ioThreadCount = m_sysInfo.dwNumberOfProcessors - 2;
 	}
 
+	// TODO : 쓰레드 매니저 생성 예정
+	vector< HANDLE > threadHandleVec;
+
 	for ( int i = 0; i < ioThreadCount; i++ )
-		_beginthreadex( NULL, 0, _RunEchoThreadMain, (void*)( m_comPort ), 0, NULL );
+		threadHandleVec.push_back( (HANDLE)( _beginthreadex( NULL, 0, _RunEchoThreadMain, (void*)( m_comPort ), 0, NULL ) ) );
 
 	m_serverSockData = new SocketData;
-
-	m_serverSockData->sock = WSASocketW( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
-	m_serverSockData->sockAdr.sin_family      = AF_INET;
-	m_serverSockData->sockAdr.sin_addr.s_addr = htonl( INADDR_ANY );
-	m_serverSockData->sockAdr.sin_port        = htons( port );
+	m_serverSockData->InitializeServerInfo( port );
 
 	_BindSocket( m_serverSockData );
-
 	_ListenScoket( m_serverSockData );
+
+	// TODO : 세션 관리 매니저 생성 예정
+	vector< SocketData* > socketDataVec;
+	vector< IOData* >     ioDataVec;
 
 	while ( 1 )
 	{
-		SocketData clintSocketData;
-		int addrLen = sizeof( clintSocketData.sockAdr );
+		SocketData* socketData = new SocketData;
+		socketDataVec.push_back( socketData );
 
-		clintSocketData.sock = accept( m_serverSockData->sock, (SOCKADDR*)( &clintSocketData.sockAdr ), &addrLen );
+		int addrLen = sizeof( socketData->sockAdr );
+		socketData->sock = accept( m_serverSockData->sock, (SOCKADDR*)( &socketData->sockAdr ), &addrLen );
 
-		m_socketData = new SocketData;
-		m_socketData->sock = clintSocketData.sock;
-		memcpy( &( m_socketData->sockAdr ), &clintSocketData.sockAdr, addrLen );
-
-		_RegisterCompletionPort( clintSocketData.sock, m_socketData );
+		_RegisterCompletionPort( socketData->sock, socketData );
 			
-		m_ioInfo = new IOData( EIOMode::Read );
+		IOData* ioData = new IOData( EIOMode::Read );
+		ioDataVec.push_back( ioData );
 
-		_AsyncRecv( m_socketData->sock, m_ioInfo );
+		_AsyncRecv( socketData->sock, ioData );
 	}
 }
 
@@ -233,7 +233,7 @@ void AnT::Server::_AsyncSendCallback( SocketData* socketData, IOData* ioData, in
 {
 	puts( "message sent!" );
 
-	_DeleteSafe( ioData );
+	delete( ioData ); // _DeleteSafe로 delete 하면 소멸자 호출 안 됨 원인찾기.
 }
 
 ///////////////////////////////////////////////////////////////////////////
