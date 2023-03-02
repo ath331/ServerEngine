@@ -53,7 +53,7 @@ namespace AnT
 			WSABUF     m_wsaBuf;
 			char       m_buffer[ BUF_SIZE ];
 
-			EIOMode    m_ioMode;           ///< IOMode
+			EIOMode    m_ioMode;           ///< READ or WRITE
 			int        m_recvBytes = 0;    ///< 수신 바이트
 			int        m_flags     = 0;    ///< 플래그
 	};

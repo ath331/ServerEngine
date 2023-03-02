@@ -124,7 +124,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Library\lib\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ws2_32.lib;Network.lib;Mswsock.lib</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;Network.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,7 +148,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Library\lib\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ws2_32.lib;Network.lib;Mswsock.lib</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;Network.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -64,12 +64,16 @@ namespace AnT
 		/// 소켓을 종료시킨다.
 		static void _CloseSocket( SocketData* socketData, IOData* ioData );
 
-		static void _AsyncRecv  ( SOCKET sock, IOData* ioData, int bufferCount = 1 ); /// 비동기 수신
-		static void _AsyncSend  ( SOCKET sock, IOData* ioData, int sendSize );        /// 비동기 송신
-		// static void _AsyncAccept( SOCKET sock, IOData* ioData, int sendSize );        /// 비동기 Accept
+		/// 비동기 수신
+		static void _AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount = 1 );
 
-		static void _AsyncRecvCallback  ( SocketData* socketData, IOData* ioData, int bytesSize ); /// 비동기 수신 완료
-		static void _AsyncSendCallback  ( SocketData* socketData, IOData* ioData, int bytesSize ); /// 비동기 송신 완료
-		static void _AsyncAcceptCallback( SocketData* socketData, IOData* ioData, int bytesSize ); /// 비동기 Accept 완료
+		/// 비동기 송신
+		static void _AsyncSend( SOCKET sock, IOData* ioData, int sendSize );
+
+		/// 비동기 수신 완료
+		static void _AsyncRecvCallback( SocketData* socketData, IOData* ioData, int bytesSize );
+
+		/// 비동기 송신 완료
+		static void _AsyncSendCallback( SocketData* socketData, IOData* ioData, int bytesSize );
 	};
 }
