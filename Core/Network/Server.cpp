@@ -233,7 +233,11 @@ void AnT::Server::_AsyncSendCallback( SocketData* socketData, IOData* ioData, in
 {
 	puts( "message sent!" );
 
-	delete( ioData ); // _DeleteSafe로 delete 하면 소멸자 호출 안 됨 원인찾기.
+	if ( ioData )
+	{
+		delete( ioData ); // _DeleteSafe로 delete 하면 소멸자 호출 안 됨 원인찾기.
+		ioData = nullptr;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////

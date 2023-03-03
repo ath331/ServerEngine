@@ -4,6 +4,8 @@
 
 
 #include "pch.h"
+#include "LibraryPch.h"
+#include "Network/Server.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -11,5 +13,8 @@
 ///////////////////////////////////////////////////////////////////////////
 int main()
 {
-    cout << "Hello World!\n";
+	AnT::Server server;
+	server.RunServer( 9999 );
+
+	return 0;
 }
