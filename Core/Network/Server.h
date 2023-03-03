@@ -4,11 +4,8 @@
 
 
 #pragma once
-
-
 #include "IOData.h"
 #include "SocketData.h"
-#include <process.h>
 #include <windows.h>
 
 
@@ -21,17 +18,14 @@ namespace AnT
 		Server();
 
 	private:
-		WSADATA	          m_wsaData;        //< 
 		HANDLE            m_comPort;        //< 컴플리션 포트
-		SYSTEM_INFO       m_sysInfo;        //< 
-
 		SocketData*       m_serverSockData; //< 서버 소켓 데이터
 
 	public:
 		/// 서버시작 함수
 		void RunServer(
 			short port          = 9999,
-			int   ioThreadCount = 0 );
+			int   ioThreadCount = 5 );
 
 	private:
 		/// 에러 메시지 출력 함수

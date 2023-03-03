@@ -5,7 +5,7 @@
 
 #include "pch.h"
 #include "LibraryPch.h"
-#include "Network/Server.h"
+#include "NetWorkPch.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -13,8 +13,15 @@
 ///////////////////////////////////////////////////////////////////////////
 int main()
 {
+	AnT::NetWorkSystem netWorkSystem;
+	AnT::System system;
+
 	AnT::Server server;
-	server.RunServer( 9999 );
+
+	int ioThreadCount = system.GetProcessorsCount() - 2;
+	ioThreadCount = 5; // 테스트용 카운트 대입
+
+	server.RunServer( 9999, ioThreadCount );
 
 	return 0;
 }

@@ -5,8 +5,7 @@
 
 #include "pch.h"
 #include "Server.h"
-// #include "IOData.h"
-// #include "SocketData.h"
+#include <process.h>
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -14,8 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////
 AnT::Server::Server()
 {
-	if ( WSAStartup( MAKEWORD( 2, 2 ), &m_wsaData ) != 0 )
-		_PrintError( "WSAStartup() error!" );
+	cout << "Make Server Object" << endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -25,13 +23,10 @@ void AnT::Server::RunServer(
 	short  port,
 	int    ioThreadCount )
 {
-	m_comPort = _MakeCompletionPort();
+	cout << "RunServer. [PORT] : " << port << endl;
+	cout << "[IoThreadCount] : "   << ioThreadCount << endl;
 
-	if ( !ioThreadCount )
-	{
-		GetSystemInfo( &m_sysInfo );
-		ioThreadCount = m_sysInfo.dwNumberOfProcessors - 2;
-	}
+	m_comPort = _MakeCompletionPort();
 
 	// TODO : 쓰레드 매니저 생성 예정
 	vector< HANDLE > threadHandleVec;

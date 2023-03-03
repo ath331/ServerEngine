@@ -153,9 +153,11 @@
     <ClInclude Include="EnumConst.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="IOData.h" />
+    <ClInclude Include="NetWorkSystem.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="SocketData.h" />
+    <ClInclude Include="System.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IOData.cpp" />

@@ -25,6 +25,9 @@
     <Filter Include="SocketData">
       <UniqueIdentifier>{5caf2b21-470c-48fa-a484-2691a0d711de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{2d350d3d-f0d9-4e45-9bf7-b12d0ae0dd43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -44,6 +47,12 @@
     </ClInclude>
     <ClInclude Include="SocketData.h">
       <Filter>SocketData</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="NetWorkSystem.h">
+      <Filter>System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
