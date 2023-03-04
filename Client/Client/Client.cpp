@@ -4,6 +4,13 @@
 
 
 #include "pch.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <winsock2.h>
+#include <WS2tcpip.h>
+
+
+#pragma comment(lib, "ws2_32.lib" )
 
 
 ///////////////////////////////////////////////////////////////////////////
