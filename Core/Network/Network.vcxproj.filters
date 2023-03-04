@@ -16,9 +16,6 @@
     <Filter Include="Server">
       <UniqueIdentifier>{9f07d8e8-f5d6-4446-8a79-801af6e628cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Client">
-      <UniqueIdentifier>{dfb99e5b-c5a0-4149-b6a6-931b09582cf0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IOData">
       <UniqueIdentifier>{c1a8d2d5-017c-43c1-9f82-33c823c230fa}</UniqueIdentifier>
     </Filter>
@@ -42,19 +39,19 @@
     <ClInclude Include="Server.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="IOData.h">
+    <ClInclude Include="IOData\IOData.h">
       <Filter>IOData</Filter>
     </ClInclude>
-    <ClInclude Include="SocketData.h">
+    <ClInclude Include="System\NetWorkSystem.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\System.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketData\SocketData.h">
       <Filter>SocketData</Filter>
     </ClInclude>
-    <ClInclude Include="System.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="NetWorkSystem.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="SocketDataManager.h">
+    <ClInclude Include="SocketData\SocketDataManager.h">
       <Filter>SocketData</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,10 +65,10 @@
     <ClCompile Include="Server.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="IOData.cpp">
+    <ClCompile Include="IOData\IOData.cpp">
       <Filter>IOData</Filter>
     </ClCompile>
-    <ClCompile Include="SocketDataManager.cpp">
+    <ClCompile Include="SocketData\SocketDataManager.cpp">
       <Filter>SocketData</Filter>
     </ClCompile>
   </ItemGroup>

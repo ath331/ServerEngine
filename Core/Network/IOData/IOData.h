@@ -34,8 +34,8 @@ namespace AnT
 
 	/// @get, @set
 	public:
-		EIOMode    GetIOMode() { return m_ioMode; }                     //< IOMode 반환
-		void       SetIOMode( EIOMode ioMode ) { m_ioMode = ioMode; }   //< IOMode 설정
+		EIOMode     GetIOMode() { return m_ioMode; }                    //< IOMode 반환
+		void        SetIOMode( EIOMode ioMode ) { m_ioMode = ioMode; }  //< IOMode 설정
 
 		WSABUF      GetWsaBuf()        { return m_wsaBuf;      }        //< WSABUF 반환
 		WSABUF*     GetWsaBufPtr()     { return &m_wsaBuf;     }        //< WSABUF의 포인터 반환

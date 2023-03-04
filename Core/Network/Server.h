@@ -4,8 +4,8 @@
 
 
 #pragma once
-#include "IOData.h"
-#include "SocketDataManager.h"
+#include "IOData/IOData.h"
+#include "SocketData/SocketDataManager.h"
 #include <windows.h>
 
 
