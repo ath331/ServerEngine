@@ -4,11 +4,13 @@
 #include <winsock2.h>
 #include <WS2tcpip.h>
 
+
 #pragma comment(lib, "ws2_32.lib" )
 
 
 #define BUF_SIZE 1024
 void ErrorHandling( string message );
+
 
 int main( int argc, char* argv[] )
 {
