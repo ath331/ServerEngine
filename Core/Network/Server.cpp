@@ -250,6 +250,7 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 		return;
 	}
 
+	// Echo 서버이므로 그대로 바로 전송하는것
 	_AsyncSend( socketData->sock, ioData, bytesSize );
 
 	ioData = new IOData;
