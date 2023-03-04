@@ -32,7 +32,7 @@ void AnT::Server::RunServer(
 	vector< HANDLE > threadHandleVec;
 
 	for ( int i = 0; i < ioThreadCount; i++ )
-		threadHandleVec.push_back( (HANDLE)( _beginthreadex( NULL, 0, _RunEchoThreadMain, (void*)( m_comPort ), 0, NULL ) ) );
+		threadHandleVec.push_back( (HANDLE)( _beginthreadex( NULL, 0, _RunEchoThreadMain, this, 0, NULL ) ) );
 
 	m_serverSockData = new SocketData;
 	m_serverSockData->InitializeServerInfo( port );
@@ -41,13 +41,12 @@ void AnT::Server::RunServer(
 	_ListenScoket( m_serverSockData );
 
 	// TODO : 技记 包府 概聪历 积己 抗沥
-	vector< SocketData* > socketDataVec;
 	vector< IOData* >     ioDataVec;
 
 	while ( 1 )
 	{
 		SocketData* socketData = new SocketData;
-		socketDataVec.push_back( socketData );
+		m_clientSocketDataManager.AddSocketData( socketData );
 
 		int addrLen = sizeof( socketData->sockAdr );
 		socketData->sock = accept( m_serverSockData->sock, (SOCKADDR*)( &socketData->sockAdr ), &addrLen );
@@ -64,9 +63,10 @@ void AnT::Server::RunServer(
 ///////////////////////////////////////////////////////////////////////////
 // @brief     IO thread function
 ///////////////////////////////////////////////////////////////////////////
-unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
+unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* thisObj )
 {
-	HANDLE            comPort    = (HANDLE)( comPortPtr );
+	Server*           thisObject = (Server*)( thisObj );
+	HANDLE            comPort    = (HANDLE)( thisObject->m_comPort );
 	DWORD             bytesTrans = 0;
 	SocketData*       socketData;
 	IOData*           ioData;
@@ -83,8 +83,8 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 		if ( !socketData )
 			continue;
 
-		if      ( ioData->GetIOMode() == EIOMode::Read  ) _AsyncRecvCallback( socketData, ioData, bytesTrans );
-		else if ( ioData->GetIOMode() == EIOMode::Write ) _AsyncSendCallback( socketData, ioData, bytesTrans );
+		if      ( ioData->GetIOMode() == EIOMode::Read  ) thisObject->_AsyncRecvCallback( socketData, ioData, bytesTrans );
+		else if ( ioData->GetIOMode() == EIOMode::Write ) thisObject->_AsyncSendCallback( socketData, ioData, bytesTrans );
 	}
 
 	return 0;
@@ -95,10 +95,12 @@ unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* comPortPtr )
 ///////////////////////////////////////////////////////////////////////////
 void AnT::Server::_CloseSocket( SocketData* socketData, IOData* ioData )
 {
+	// TODO : half-close 规过栏肺 函版窍扁
 	if ( socketData )
 		closesocket( socketData->sock );
 
-	_DeleteSafe( socketData );
+	m_clientSocketDataManager.DeleteSocket( socketData );
+
 	_DeleteSafe( ioData );
 }
 

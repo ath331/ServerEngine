@@ -54,6 +54,9 @@
     <ClInclude Include="NetWorkSystem.h">
       <Filter>System</Filter>
     </ClInclude>
+    <ClInclude Include="SocketDataManager.h">
+      <Filter>SocketData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="IOData.cpp">
       <Filter>IOData</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketDataManager.cpp">
+      <Filter>SocketData</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -157,6 +157,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="SocketData.h" />
+    <ClInclude Include="SocketDataManager.h" />
     <ClInclude Include="System.h" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="SocketDataManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
