@@ -25,6 +25,9 @@
     <Filter Include="System">
       <UniqueIdentifier>{2d350d3d-f0d9-4e45-9bf7-b12d0ae0dd43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{468b753b-378d-48f8-b7e4-5547fe024ecc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -35,9 +38,6 @@
     </ClInclude>
     <ClInclude Include="EnumConst.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Server.h">
-      <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="IOData\IOData.h">
       <Filter>IOData</Filter>
@@ -54,6 +54,15 @@
     <ClInclude Include="SocketData\SocketDataManager.h">
       <Filter>SocketData</Filter>
     </ClInclude>
+    <ClInclude Include="Client\Client.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\Server.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="NetWorkBase.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network.cpp">
@@ -62,14 +71,20 @@
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Server.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="IOData\IOData.cpp">
       <Filter>IOData</Filter>
     </ClCompile>
     <ClCompile Include="SocketData\SocketDataManager.cpp">
       <Filter>SocketData</Filter>
+    </ClCompile>
+    <ClCompile Include="Client\Client.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\Server.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="NetWorkBase.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
