@@ -4,14 +4,13 @@
 
 
 #pragma once
-#include "IOData/IOData.h"
-#include "SocketData/SocketDataManager.h"
-#include <windows.h>
+#include "NetWorkBase.h"
 
 
 namespace AnT
 {
 	class Server
+		: public NetWorkBase
 	{
 	public:
 		/// 생성자
@@ -33,10 +32,6 @@ namespace AnT
 		/// 에러 메시지 출력 함수
 		void _PrintError( string message );
 
-		/// 안전한 포인터 해제
-		static void _DeleteSafe( void* ptr );
-
-	/// NetWork Function
 	private:
 		/// bind 함수를 실행한다
 		void _BindSocket( SocketData* sockData );
@@ -56,10 +51,8 @@ namespace AnT
 
 		/// 소켓을 종료시킨다.
 		void _CloseSocket( SocketData* socketData, IOData* ioData );
-		
-		void _AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount = 1 );              /// 비동기 수신
-		void _AsyncSend( SOCKET sock, IOData* ioData, int sendSize        );              /// 비동기 송신
-		void _AsyncRecvCallback( SocketData* socketData, IOData* ioData, int bytesSize ); /// 비동기 수신 완료
-		void _AsyncSendCallback( SocketData* socketData, IOData* ioData, int bytesSize ); /// 비동기 송신 완료
+
+		virtual void _AsyncRecvCallback( SocketData* socketData, IOData* ioData, int bytesSize ) override; /// 비동기 수신 완료
+		virtual void _AsyncSendCallback( SocketData* socketData, IOData* ioData, int bytesSize ) override; /// 비동기 송신 완료
 	};
 }

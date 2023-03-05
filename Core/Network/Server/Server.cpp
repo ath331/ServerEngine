@@ -116,18 +116,6 @@ void AnT::Server::_PrintError( string message )
 }
 
 ///////////////////////////////////////////////////////////////////////////
-// @brief     안전한 포인터 해제
-///////////////////////////////////////////////////////////////////////////
-void AnT::Server::_DeleteSafe( void* ptr )
-{
-	if ( !ptr )
-		return;
-
-	delete ptr;
-	ptr = nullptr;
-}
-
-///////////////////////////////////////////////////////////////////////////
 // @brief     bind 함수를 실행한다
 ///////////////////////////////////////////////////////////////////////////
 void AnT::Server::_BindSocket( SocketData* sockData )
@@ -166,61 +154,6 @@ HANDLE AnT::Server::_MakeCompletionPort()
 void AnT::Server::_RegisterCompletionPort( SOCKET sock, SocketData* sockData )
 {
 	CreateIoCompletionPort( (HANDLE)( sock ), m_comPort, (ULONG_PTR)( sockData ), 0 );
-}
-
-///////////////////////////////////////////////////////////////////////////
-// @brief     비동기 수신
-///////////////////////////////////////////////////////////////////////////
-void AnT::Server::_AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount )
-{
-	if ( !ioData )
-		return;
-
-	ioData->SetIOMode( EIOMode::Read );
-
-	int recvResult = WSARecv(
-		sock,
-		ioData->GetWsaBufPtr(),
-		bufferCount,
-		(LPDWORD)( ioData->GetRecvBytesPtr() ),
-		(LPDWORD)( ioData->GetFlagPtr() ),
-		ioData->GetOverlappedPtr(),
-		NULL );
-
-	if ( !recvResult )
-	{
-		cout << "Recv is fail!! ErrorCode : " << WSAGetLastError() << endl;
-		_DeleteSafe( ioData );
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////
-// @brief     비동기 송신
-///////////////////////////////////////////////////////////////////////////
-void AnT::Server::_AsyncSend( SOCKET sock, IOData* ioData, int sendSize )
-{
-	if ( !ioData )
-		return;
-
-	if ( sendSize <= 0 )
-		return;
-
-	ioData->SetWsaBufLen( sendSize );
-	ioData->SetIOMode( EIOMode::Write );
-
-	int sendResult = WSASend( 
-		sock, 
-		ioData->GetWsaBufPtr(),
-		1, 
-		NULL, 
-		0, 
-		ioData->GetOverlappedPtr(),
-		NULL );
-
-	if ( sendResult != 0 )
-	{
-		cout << "Send is fail!! ErrorCode : " << WSAGetLastError() << endl;
-	}
 }
 
 ///////////////////////////////////////////////////////////////////////////
