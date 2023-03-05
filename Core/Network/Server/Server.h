@@ -4,7 +4,7 @@
 
 
 #pragma once
-#include "NetWorkBase.h"
+#include "../NetWorkBase.h"
 
 
 namespace AnT
@@ -15,6 +15,9 @@ namespace AnT
 	public:
 		/// 생성자
 		Server();
+
+		/// 소멸자
+		~Server();
 
 	private:
 		HANDLE            m_comPort;                 //< 컴플리션 포트

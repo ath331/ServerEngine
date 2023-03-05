@@ -13,6 +13,10 @@ namespace AnT
 {
 	class NetWorkBase
 	{
+	public:
+		/// 생성자
+		NetWorkBase();
+
 	protected:
 		/// 안전한 포인터 해제
 		void _DeleteSafe( void* ptr );

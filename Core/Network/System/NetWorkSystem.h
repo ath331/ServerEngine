@@ -24,6 +24,7 @@ namespace AnT
 		}
 
 	private:
-		WSADATA m_wsaData; //<  네트워크 데이터
+		/// 네트워크 데이터
+		WSADATA m_wsaData;
 	};
 }

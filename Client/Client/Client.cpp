@@ -21,7 +21,7 @@ int main( int argc, char* argv[] )
 	int strLen, readLen;
 
 	string ip = "127.0.0.1";
-	string port = "9999";
+	short port     = 9999;
 
 	bool hasIpAndPort = true;
 
@@ -36,7 +36,7 @@ int main( int argc, char* argv[] )
 	if ( WSAStartup( MAKEWORD( 2, 2 ), &wsaData ) != 0 )
 		ErrorHandling( "WSAStartup() error!" );
 
-	hSocket = socket( PF_INET, SOCK_STREAM, 0 );
+	hSocket = WSASocketW( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
 	if ( hSocket == INVALID_SOCKET )
 		ErrorHandling( "socket() error" );
 
@@ -50,10 +50,9 @@ int main( int argc, char* argv[] )
 	}
 	else
 	{
-		inet_pton( AF_INET, (PCSTR)( &ip ), &( servAdr.sin_addr.s_addr ) );
-		servAdr.sin_port = htons( atoi( port.c_str() ) );
+		inet_pton( AF_INET, ip.c_str(), &( servAdr.sin_addr.s_addr ));
+		servAdr.sin_port = htons( port );
 	}
-
 
 	if ( connect( hSocket, (SOCKADDR*)&servAdr, sizeof( servAdr ) ) == SOCKET_ERROR )
 		ErrorHandling( "connect() error!" );

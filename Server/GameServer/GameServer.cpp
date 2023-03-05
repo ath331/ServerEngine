@@ -13,7 +13,6 @@
 ///////////////////////////////////////////////////////////////////////////
 int main()
 {
-	AnT::NetWorkSystem netWorkSystem;
 	AnT::System system;
 
 	AnT::Server server;

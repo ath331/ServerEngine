@@ -17,14 +17,23 @@ AnT::Server::Server()
 }
 
 ///////////////////////////////////////////////////////////////////////////
+// @brief     소멸자
+///////////////////////////////////////////////////////////////////////////
+AnT::Server::~Server()
+{
+	WSACleanup();
+}
+
+///////////////////////////////////////////////////////////////////////////
 // @brief     서버시작 함수
 ///////////////////////////////////////////////////////////////////////////
 void AnT::Server::RunServer(
 	short  port,
 	int    ioThreadCount )
 {
-	cout << "RunServer. [PORT] : " << port << endl;
-	cout << "[IoThreadCount] : "   << ioThreadCount << endl;
+	cout << "RunServer." <<  endl;
+	cout << "[PORT]          : " << port << endl;
+	cout << "[IoThreadCount] : " << ioThreadCount << endl;
 
 	m_comPort = _MakeCompletionPort();
 
@@ -35,7 +44,7 @@ void AnT::Server::RunServer(
 		threadHandleVec.push_back( (HANDLE)( _beginthreadex( NULL, 0, _RunEchoThreadMain, this, 0, NULL ) ) );
 
 	m_serverSockData = new SocketData;
-	m_serverSockData->InitializeServerInfo( port );
+	m_serverSockData->InitializeServerInfo();
 
 	_BindSocket( m_serverSockData );
 	_ListenScoket( m_serverSockData );
