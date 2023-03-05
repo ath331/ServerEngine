@@ -22,7 +22,6 @@ namespace AnT
 	private:
 		HANDLE            m_comPort;                 //< 컴플리션 포트
 		SocketData*       m_serverSockData;          //< 서버 소켓 데이터
-
 		SocketDataManager m_clientSocketDataManager; //< 클라이언트 소켓 데이터 관리자
 
 	public:

@@ -1,19 +1,22 @@
 ﻿#include "pch.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <winsock2.h>
-#include <WS2tcpip.h>
+#include "../Server/GameServer/LibraryPch.h"
+#include "../Server/GameServer/NetWorkPch.h"
 
 
-#pragma comment(lib, "ws2_32.lib" )
-
-
-#define BUF_SIZE 1024
 void ErrorHandling( string message );
 
 
 int main( int argc, char* argv[] )
 {
+	AnT::Client client;
+	client;
+
+	// Server에 연결
+
+	// Server로 메시지 보내기
+
+	// Server에서 메시지 받기
+
 	WSADATA wsaData;
 	SOCKET hSocket;
 	SOCKADDR_IN servAdr;
@@ -32,9 +35,6 @@ int main( int argc, char* argv[] )
 
 		hasIpAndPort = false;
 	}
-
-	if ( WSAStartup( MAKEWORD( 2, 2 ), &wsaData ) != 0 )
-		ErrorHandling( "WSAStartup() error!" );
 
 	hSocket = WSASocketW( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
 	if ( hSocket == INVALID_SOCKET )

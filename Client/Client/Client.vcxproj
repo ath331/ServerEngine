@@ -154,6 +154,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Server\GameServer\LibraryPch.h" />
+    <ClInclude Include="..\..\Server\GameServer\NetWorkPch.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
