@@ -19,10 +19,27 @@ int main( int argc, char* argv[] )
 	else
 		puts( "Connected..........." );
 
+	client.RunIOThreads();
 
+	string msg;
+
+	while ( true )
+	{
+		msg.clear();
+
+		cout << "'Exit' is exit" << endl;
+		cout << " [Chat] : ";
+		cin >> msg;
+
+		if ( msg.compare( "Exit" ) == 0 )
+			break;
+
+		client.Send( msg );
+	}
 
 	WSACleanup();
 
+	cout << "Exit. Input any key..." << endl;
 	int a = 0;
 	std::cin >> a;
 

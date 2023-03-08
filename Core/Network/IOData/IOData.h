@@ -25,7 +25,7 @@ namespace AnT
 		/// 소멸자
 		~IOData()
 		{
-			cout << "소멸자!" << endl;
+			// cout << "소멸자!" << endl;
 		}
 
 	public:
@@ -42,6 +42,8 @@ namespace AnT
 		OVERLAPPED  GetOverlapped()    { return m_overlapped;  }        //< overlapped 반환
 		OVERLAPPED* GetOverlappedPtr() { return &m_overlapped; }        //< overlapped의 포인터 반환
 
+		/// string 전송용 테스트 함수 이후 패킷 세팅으로 바꾸기
+		void        SetWsaBufBuf( string str ) { std::copy( str.begin(), str.end(), m_buffer ); };
 		void        SetWsaBufLen( int len ) { m_wsaBuf.len = len; }     //< WsaBuf의 Len 길이를 설정
 
 		int*        GetRecvBytesPtr() { return &m_recvBytes; }          //< 수신 바이트의 포인터 반환

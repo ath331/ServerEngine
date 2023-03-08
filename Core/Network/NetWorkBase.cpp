@@ -15,6 +15,8 @@ AnT::NetWorkBase::NetWorkBase()
 {
 	// NetWorkSystem 생성자로 네트워크 버전 초기화
 	NetWorkSystem netWorkSystem;
+
+	m_comPort = _MakeCompletionPort();
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -62,7 +64,7 @@ void AnT::NetWorkBase::_DeleteSafe( void* ptr )
 ///////////////////////////////////////////////////////////////////////////
 // @brief     비동기 수신
 ///////////////////////////////////////////////////////////////////////////
-void AnT::NetWorkBase::_AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount )
+void AnT::NetWorkBase::AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount )
 {
 	if ( !ioData )
 		return;
@@ -88,7 +90,7 @@ void AnT::NetWorkBase::_AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount 
 ///////////////////////////////////////////////////////////////////////////
 // @brief     비동기 송신
 ///////////////////////////////////////////////////////////////////////////
-void AnT::NetWorkBase::_AsyncSend( SOCKET sock, IOData* ioData, int sendSize )
+void AnT::NetWorkBase::AsyncSend( SOCKET sock, IOData* ioData, int sendSize )
 {
 	if ( !ioData )
 		return;

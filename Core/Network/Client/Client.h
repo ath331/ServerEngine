@@ -17,7 +17,14 @@ namespace AnT
 		Client()
 		{
 			m_serverData.CreateSocket();
+			m_hasServer = false;
 		}
+
+		/// 네트워크를 실행한다.
+		void RunIOThreads();
+
+		/// Send 한다
+		void Send( string msg );
 
 	private:
 		/// 서버 정보

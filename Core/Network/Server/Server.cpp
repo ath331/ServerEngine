@@ -35,8 +35,6 @@ void AnT::Server::RunServer(
 	cout << "[PORT]          : " << port << endl;
 	cout << "[IoThreadCount] : " << ioThreadCount << endl;
 
-	m_comPort = _MakeCompletionPort();
-
 	// TODO : 쓰레드 매니저 생성 예정
 	vector< HANDLE > threadHandleVec;
 
@@ -46,7 +44,7 @@ void AnT::Server::RunServer(
 	m_serverSockData = new SocketData;
 	m_serverSockData->InitializeSocketInfo();
 
-	_BindSocket( m_serverSockData );
+	_BindSocket  ( m_serverSockData );
 	_ListenScoket( m_serverSockData );
 
 	// TODO : 세션 관리 매니저 생성 예정
@@ -65,7 +63,7 @@ void AnT::Server::RunServer(
 		IOData* ioData = new IOData( EIOMode::Read );
 		ioDataVec.push_back( ioData );
 
-		_AsyncRecv( socketData->sock, ioData );
+		AsyncRecv( socketData->sock, ioData );
 	}
 }
 
@@ -147,8 +145,8 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 	}
 
 	// Echo 서버이므로 그대로 바로 전송하는것
-	_AsyncSend( socketData->sock, ioData, bytesSize );
+	AsyncSend( socketData->sock, ioData, bytesSize );
 
 	ioData = new IOData;
-	_AsyncRecv( socketData->sock, ioData );
+	AsyncRecv( socketData->sock, ioData );
 }
