@@ -24,22 +24,27 @@ namespace AnT
 			memset( &sockAdr, 0, sizeof( sockAdr )    );
 		}
 
-		void InitializeServerInfo( string ip = "127.0.0.1", int port = 9999)
+		void InitializeSocketInfo( string ip = "127.0.0.1", int port = 9999 )
 		{
 			CreateSocket();
+			InitializeInfo( ip, port );
+		}
+
+		void CreateSocket()
+		{
+			sock = WSASocketW( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
+		}
+
+		void InitializeInfo( string ip = "127.0.0.1", int port = 9999 )
+		{
 			sockAdr.sin_family = AF_INET;
-			sockAdr.sin_port   = htons( port );
+			sockAdr.sin_port = htons( port );
 
 			if ( inet_pton( AF_INET, ip.c_str(), &sockAdr.sin_addr.s_addr ) <= 0 )
 			{
 				std::cout << "Invalid IP address" << std::endl;
 				return;
 			}
-		}
-
-		void CreateSocket()
-		{
-			sock = WSASocketW( AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED );
 		}
 	};
 }	

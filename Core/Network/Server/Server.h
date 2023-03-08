@@ -5,6 +5,7 @@
 
 #pragma once
 #include "../NetWorkBase.h"
+#include "../SocketData/SocketDataManager.h"
 
 
 namespace AnT
@@ -20,7 +21,6 @@ namespace AnT
 		~Server();
 
 	private:
-		HANDLE            m_comPort;                 //< 컴플리션 포트
 		SocketData*       m_serverSockData;          //< 서버 소켓 데이터
 		SocketDataManager m_clientSocketDataManager; //< 클라이언트 소켓 데이터 관리자
 
@@ -41,16 +41,7 @@ namespace AnT
 		/// listen 함수를 실행한다.
 		void _ListenScoket( SocketData* sockData, int bagLog = 5 );
 
-		/// 컴플리션 포트 핸들을 생성한다.
-		HANDLE _MakeCompletionPort();
-
-		/// 컴플리션 포트에 소켓을 등록한다.
-		void _RegisterCompletionPort( SOCKET sock, SocketData* handleInfo );
-
 	private:
-		/// IO thread function
-		static unsigned int WINAPI _RunEchoThreadMain( void* thisObj );
-
 		/// 소켓을 종료시킨다.
 		void _CloseSocket( SocketData* socketData, IOData* ioData );
 

@@ -41,10 +41,10 @@ void AnT::Server::RunServer(
 	vector< HANDLE > threadHandleVec;
 
 	for ( int i = 0; i < ioThreadCount; i++ )
-		threadHandleVec.push_back( (HANDLE)( _beginthreadex( NULL, 0, _RunEchoThreadMain, this, 0, NULL ) ) );
+		threadHandleVec.push_back( (HANDLE)( _beginthreadex( NULL, 0, _RunIOThreadMain, this, 0, NULL ) ) );
 
 	m_serverSockData = new SocketData;
-	m_serverSockData->InitializeServerInfo();
+	m_serverSockData->InitializeSocketInfo();
 
 	_BindSocket( m_serverSockData );
 	_ListenScoket( m_serverSockData );
@@ -67,36 +67,6 @@ void AnT::Server::RunServer(
 
 		_AsyncRecv( socketData->sock, ioData );
 	}
-}
-
-///////////////////////////////////////////////////////////////////////////
-// @brief     IO thread function
-///////////////////////////////////////////////////////////////////////////
-unsigned int WINAPI AnT::Server::_RunEchoThreadMain( void* thisObj )
-{
-	Server*           thisObject = (Server*)( thisObj );
-	HANDLE            comPort    = (HANDLE)( thisObject->m_comPort );
-	DWORD             bytesTrans = 0;
-	SocketData*       socketData;
-	IOData*           ioData;
-
-	while ( 1 )
-	{
-		GetQueuedCompletionStatus(
-			comPort,
-			&bytesTrans,
-			(PULONG_PTR)( &socketData ),
-			(LPOVERLAPPED*)( &ioData ),
-			INFINITE );
-
-		if ( !socketData )
-			continue;
-
-		if      ( ioData->GetIOMode() == EIOMode::Read  ) thisObject->_AsyncRecvCallback( socketData, ioData, bytesTrans );
-		else if ( ioData->GetIOMode() == EIOMode::Write ) thisObject->_AsyncSendCallback( socketData, ioData, bytesTrans );
-	}
-
-	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -147,22 +117,6 @@ void AnT::Server::_ListenScoket( SocketData* sockData, int bagLog )
 
 	if ( listen( sockData->sock, 5 ) == SOCKET_ERROR )
 		_PrintError( "Listen() error!" );
-}
-
-///////////////////////////////////////////////////////////////////////////
-// @brief     컴플리션 포트 핸들을 생성한다.
-///////////////////////////////////////////////////////////////////////////
-HANDLE AnT::Server::_MakeCompletionPort()
-{
-	return CreateIoCompletionPort( INVALID_HANDLE_VALUE, NULL, 0, 0 );
-}
-
-///////////////////////////////////////////////////////////////////////////
-// @brief     컴플리션 포트에 소켓을 등록한다.
-///////////////////////////////////////////////////////////////////////////
-void AnT::Server::_RegisterCompletionPort( SOCKET sock, SocketData* sockData )
-{
-	CreateIoCompletionPort( (HANDLE)( sock ), m_comPort, (ULONG_PTR)( sockData ), 0 );
 }
 
 ///////////////////////////////////////////////////////////////////////////

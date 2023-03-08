@@ -18,6 +18,36 @@ AnT::NetWorkBase::NetWorkBase()
 }
 
 ///////////////////////////////////////////////////////////////////////////
+// @brief     IO thread function
+///////////////////////////////////////////////////////////////////////////
+unsigned int WINAPI AnT::NetWorkBase::_RunIOThreadMain( void* thisObj )
+{
+	NetWorkBase* thisObject = (NetWorkBase*)( thisObj );
+	HANDLE       comPort    = (HANDLE)( thisObject->m_comPort );
+	DWORD        bytesTrans = 0;
+	SocketData*  socketData;
+	IOData*      ioData;
+
+	while ( 1 )
+	{
+		GetQueuedCompletionStatus(
+			comPort,
+			&bytesTrans,
+			(PULONG_PTR)( &socketData ),
+			(LPOVERLAPPED*)( &ioData ),
+			INFINITE );
+
+		if ( !ioData )
+			continue;
+
+		if      ( ioData->GetIOMode() == EIOMode::Read  ) thisObject->_AsyncRecvCallback( socketData, ioData, bytesTrans );
+		else if ( ioData->GetIOMode() == EIOMode::Write ) thisObject->_AsyncSendCallback( socketData, ioData, bytesTrans );
+	}
+
+	return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////
 // @brief     안전한 포인터 해제
 ///////////////////////////////////////////////////////////////////////////
 void AnT::NetWorkBase::_DeleteSafe( void* ptr )
