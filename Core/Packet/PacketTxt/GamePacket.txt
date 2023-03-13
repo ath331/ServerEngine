@@ -2,20 +2,21 @@
 
 # 패킷 이름은 모두 Pkt로 시작
 
-# > : c -> s 패킷. 요청패킷 
+# 접두어 > : c -> s 패킷. 
+#   - 요청패킷 
 
-# < : s -> c Result 패킷.
+# 접두어 < : s -> c Result 패킷.
 #   - 대응 되는 요청패킷이 반드시 있어야하며 Result로 패킷이름이 끝나야함.
 #   - 반드시 m_result 변수를 가져야함.
 
-# < : s -> c Notify 패킷. 요청패킷이 필요없고 Notify로 패킷이름이 끝나야함.
+# 접두어 < : s -> c Notify 패킷. 
+#   - 요청패킷이 필요없고 Notify로 패킷이름이 끝나야함.
 
 
 
-//< 로그인 요청 패킷
 > PktLogin
+//< 로그인 요청 패킷
 	string    m_id;    //<  로그인 시도 아이디
-	string    m_pw;    //<  로그인 시도 패스워드
 
 < PktLoginResult
 	EResultCode    m_result;  //< 결과
