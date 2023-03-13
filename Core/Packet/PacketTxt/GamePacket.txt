@@ -1,0 +1,26 @@
+# 통신관련 패킷
+
+# 패킷 이름은 모두 Pkt로 시작
+
+# > : c -> s 패킷. 요청패킷 
+
+# < : s -> c Result 패킷.
+#   - 대응 되는 요청패킷이 반드시 있어야하며 Result로 패킷이름이 끝나야함.
+#   - 반드시 m_result 변수를 가져야함.
+
+# < : s -> c Notify 패킷. 요청패킷이 필요없고 Notify로 패킷이름이 끝나야함.
+
+
+
+//< 로그인 요청 패킷
+> PktLogin
+	string    m_id;    //<  로그인 시도 아이디
+	string    m_pw;    //<  로그인 시도 패스워드
+
+< PktLoginResult
+	EResultCode    m_result;  //< 결과
+	string         m_name;    //< 캐릭터 이름
+
+< PktLoginNotify
+	string         m_name;    //< 캐릭터 이름
+
