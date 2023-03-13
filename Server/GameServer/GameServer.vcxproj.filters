@@ -27,6 +27,12 @@
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Packet\Login\PktLoginHandler.cpp">
+      <Filter>Packet\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\PktHandlerBase.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -37,6 +43,12 @@
     </ClInclude>
     <ClInclude Include="NetWorkPch.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\Login\PktLoginHandler.h">
+      <Filter>Packet\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\PktHandlerBase.h">
+      <Filter>Packet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
