@@ -20,5 +20,6 @@
 
 using namespace std;
 
+#include "Packet/Packet/EResultCode.h"
 
 #endif //PCH_H

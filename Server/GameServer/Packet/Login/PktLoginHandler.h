@@ -5,23 +5,15 @@
 
 #pragma once
 #include "Packet/PktHandlerBase.h"
+#include "Packet/Packet/EResultCode.h"
 #include "Packet/Packet/Login/PktLogin.h"
+#include "Packet/Packet/Login/PktLoginResult.h"
 
 
 class PktLoginHandler
-	: public PktHandlerBase
+	: public PktHandlerBase< PktLogin, PktLoginResult >
 {
 	/// 패킷을 핸들링한다.
-	virtual void Handle( SOCKET sock, PacketBase* pktBase )
-	{
-		const PktLogin* pktLogin = static_cast<PktLogin*>( pktBase );
-		if ( !pktLogin )
-			return;
-
-		return HandlePktLogin( sock, pktLogin );
-	}
-
-	/// PktLogin 패킷을 핸들링한다.
-	void HandlePktLogin( SOCKET sock, const PktLogin* pktLogin );
+	EResultCode HandlePktLogin( SOCKET sock, const PktLogin& pktLogin, PktLoginResult& pktLoginResult );
 };
 
