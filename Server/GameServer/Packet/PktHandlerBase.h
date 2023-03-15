@@ -18,9 +18,10 @@ class PktHandlerBase
 		if ( !packet )
 			return;
 
-		ResultPacket resultPacket;
+		// TODO 이거 흠 초기화는 어디서하고 언제 해제?
+		ResultPacket* resultPacket;
 
-		EResultCode packetResult = OnHandler( sock, *( (Packet*)( pktLogin ) ), *( (ResultPacket*)( resultPacket ) ) );
+		EResultCode packetResult = OnHandler( sock, *( (Packet*)( pktBase ) ), *( (ResultPacket*)( resultPacket ) ) );
 
 		if ( packetResult != EResultCode::NoResultSend )
 		{
@@ -29,6 +30,6 @@ class PktHandlerBase
 	}
 
 	/// 패킷을 핸들링한다.
-	virtual EResultCode OnHandler( SOCKET sock, const Packet& pktLogin, ResultPacket& pktLoginResult ) = 0;
+	virtual EResultCode OnHandler( SOCKET sock, const Packet& pktBase, ResultPacket& resultPacket ) = 0;
 };
 

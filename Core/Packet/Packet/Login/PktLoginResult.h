@@ -4,7 +4,7 @@
 
 
 #pragma once
-#include "Packet/PacketBase.h"
+#include "../PacketBase.h"
 
 
 class PktLoginResult
