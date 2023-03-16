@@ -53,8 +53,9 @@ namespace AnT
 			/// IOData의 주소 시작을 OVERLAPPED와 맞추기 위해 가장 위에 선언해야함
 			OVERLAPPED m_overlapped;
 			WSABUF     m_wsaBuf;
+	public:
 			char       m_buffer[ BUF_SIZE ];
-
+	private:
 			EIOMode    m_ioMode;           ///< READ or WRITE
 			int        m_recvBytes = 0;    ///< 수신 바이트
 			int        m_flags     = 0;    ///< 플래그

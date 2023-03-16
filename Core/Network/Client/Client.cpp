@@ -42,9 +42,9 @@ void AnT::Client::Send( string msg )
 {
 	IOData* ioData = new IOData( EIOMode::Write );
 
-	PktLogin pktLogin;
-	pktLogin.SetId( "Test123" );
-	std::memcpy( &pktLogin, ioData->GetWsaBuf().buf, sizeof( PktLogin ) );
+	PktLogin* pktLogin = new PktLogin;
+	pktLogin->SetId( "Test123" );
+	std::memcpy( ioData->m_buffer, pktLogin, sizeof( PktLogin ) );
 	ioData->SetWsaBufLen( sizeof( PktLogin ) );
 
 	// ioData->SetWsaBufBuf( msg );
