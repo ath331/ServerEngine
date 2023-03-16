@@ -6,7 +6,8 @@
 #include "pch.h"
 #include "Server.h"
 #include <process.h>
-
+// 테스트용 인클루드
+#include "../../Packet/Packet/Login/PktLogin.h"
 
 ///////////////////////////////////////////////////////////////////////////
 // @brief     생성자
@@ -145,7 +146,12 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 	}
 
 	// Echo 서버이므로 그대로 바로 전송하는것
-	AsyncSend( socketData->sock, ioData, bytesSize );
+	// AsyncSend( socketData->sock, ioData, bytesSize );
+
+	PktLogin pktLogin;
+	std::memcpy( ioData->GetWsaBuf().buf, &pktLogin, sizeof( pktLogin ) );
+
+	cout <<  "ID : " << pktLogin.GetId() << endl;
 
 	ioData = new IOData;
 	AsyncRecv( socketData->sock, ioData );

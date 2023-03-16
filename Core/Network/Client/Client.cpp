@@ -6,6 +6,8 @@
 #include "pch.h"
 #include "Client.h"
 #include <process.h>
+// 테스트용 인클루드
+#include "../../Packet/Packet/Login/PktLogin.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -39,8 +41,14 @@ void AnT::Client::RunIOThreads()
 void AnT::Client::Send( string msg )
 {
 	IOData* ioData = new IOData( EIOMode::Write );
-	ioData->SetWsaBufBuf( msg );
-	ioData->SetWsaBufLen( msg.size() );
+
+	PktLogin pktLogin;
+	pktLogin.SetId( "Test123" );
+	std::memcpy( &pktLogin, ioData->GetWsaBuf().buf, sizeof( PktLogin ) );
+	ioData->SetWsaBufLen( sizeof( PktLogin ) );
+
+	// ioData->SetWsaBufBuf( msg );
+	// ioData->SetWsaBufLen( msg.size() );
 
 	AsyncSend( m_serverData.sock, ioData, msg.size()  );
 }
