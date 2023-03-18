@@ -16,6 +16,12 @@
     <Filter Include="PacketTxt">
       <UniqueIdentifier>{4356774a-7a47-42e7-a4c8-20b3869fe741}</UniqueIdentifier>
     </Filter>
+    <Filter Include="WriteStream">
+      <UniqueIdentifier>{240058dc-12fa-4ad9-b583-eb82432f111c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReaderStream">
+      <UniqueIdentifier>{1fb75567-d635-457b-9d85-4aae88ae1eba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -36,6 +42,12 @@
     <ClInclude Include="Packet\EResultCode.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="WriteStream\WriteStream.h">
+      <Filter>WriteStream</Filter>
+    </ClInclude>
+    <ClInclude Include="ReaderStream\ReaderStream.h">
+      <Filter>ReaderStream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Packet.cpp">
@@ -52,6 +64,12 @@
     </ClCompile>
     <ClCompile Include="Packet\PacketBase.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="WriteStream\WriteStream.cpp">
+      <Filter>WriteStream</Filter>
+    </ClCompile>
+    <ClCompile Include="ReaderStream\ReaderStream.cpp">
+      <Filter>ReaderStream</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -155,6 +155,8 @@
     <ClInclude Include="Packet\Login\PktLoginResult.h" />
     <ClInclude Include="Packet\PacketBase.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ReaderStream\ReaderStream.h" />
+    <ClInclude Include="WriteStream\WriteStream.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Packet.cpp" />
@@ -167,6 +169,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ReaderStream\ReaderStream.cpp" />
+    <ClCompile Include="WriteStream\WriteStream.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="PacketTxt\GamePacket.txt" />
