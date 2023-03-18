@@ -44,7 +44,9 @@ void AnT::Client::Send( string msg )
 
 	PktLogin* pktLogin = new PktLogin;
 	pktLogin->SetId( "Test123" );
-	std::memcpy( ioData->m_buffer, pktLogin, sizeof( PktLogin ) );
+	pktLogin->se();
+
+	ioData->SetWsaBufBuf( pktLogin->m_buffer );
 	ioData->SetWsaBufLen( sizeof( PktLogin ) );
 
 	// ioData->SetWsaBufBuf( msg );

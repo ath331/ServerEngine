@@ -149,7 +149,8 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 	// AsyncSend( socketData->sock, ioData, bytesSize );
 
 	PktLogin* pktLogin = new PktLogin;
-	std::memcpy( pktLogin, ioData->m_buffer, sizeof( pktLogin ) );
+	// std::memcpy( pktLogin, ioData->m_buffer, sizeof( pktLogin ) );
+	pktLogin->de( ioData->m_buffer, bytesSize );
 
 	cout <<  "ID : " << pktLogin->GetId() << endl;
 
