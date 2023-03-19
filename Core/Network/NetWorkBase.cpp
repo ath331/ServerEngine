@@ -64,7 +64,7 @@ void AnT::NetWorkBase::_DeleteSafe( void* ptr )
 ///////////////////////////////////////////////////////////////////////////
 // @brief     비동기 수신
 ///////////////////////////////////////////////////////////////////////////
-void AnT::NetWorkBase::AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount )
+void AnT::NetWorkBase::_AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount )
 {
 	if ( !ioData )
 		return;
@@ -90,7 +90,7 @@ void AnT::NetWorkBase::AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount )
 ///////////////////////////////////////////////////////////////////////////
 // @brief     비동기 송신
 ///////////////////////////////////////////////////////////////////////////
-void AnT::NetWorkBase::AsyncSend( SOCKET sock, IOData* ioData, int sendSize )
+void AnT::NetWorkBase::_AsyncSend( SOCKET sock, IOData* ioData, int sendSize )
 {
 	if ( !ioData )
 		return;

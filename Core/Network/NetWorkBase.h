@@ -17,9 +17,9 @@ namespace AnT
 		/// 생성자
 		NetWorkBase();
 
-	public:
-		void AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount = 1 ); /// 비동기 수신
-		void AsyncSend( SOCKET sock, IOData* ioData, int sendSize        ); /// 비동기 송신
+	protected:
+		void _AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount = 1 ); /// 비동기 수신
+		void _AsyncSend( SOCKET sock, IOData* ioData, int sendSize        ); /// 비동기 송신
 
 	protected:
 		/// 컴플리션 포트

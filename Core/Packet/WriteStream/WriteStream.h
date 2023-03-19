@@ -4,7 +4,7 @@
 
 
 #pragma once
-#include <vector>
+#include "pch.h"
 
 
 class PacketBase;
@@ -18,20 +18,21 @@ public:
 
 private:
 	/// 패킷을 담을 버퍼
-	char* m_buffer;
-
-	/// 버퍼의 사이즈
-	int m_size;
+	vector< char > m_buffer;
 
 public:
-	/// 버퍼의 주소를 반환한다.
+	/// 패킷을 직렬화한다
+	void Serialize( PacketBase* pkt );
+
+	/// 버퍼의 주소를 반환한다
 	char* GetBuffer();
 
-	/// 버퍼의 사이즈를 반환한다.
+	/// 버퍼의 사이즈를 반환한다
 	int GetSize();
 
-public:
-	
+private:
+	/// data를 size만큼 직렬화
+	void _Write( const void* data, int size );
 
 };
 

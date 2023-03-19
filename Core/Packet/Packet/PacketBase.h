@@ -9,5 +9,11 @@
 
 class PacketBase
 {
+protected:
+	/// int 타입 직렬화 오버로딩
+	ostream& operator << ( int data );
+
+	/// string 타입 직렬화 오버로딩
+	ostream& operator << ( const string& data );
 };
 

@@ -32,7 +32,7 @@ void AnT::Client::RunIOThreads()
 
 	IOData* ioData = new IOData( EIOMode::Read );
 
-	AsyncRecv( m_serverData.sock, ioData );
+	_AsyncRecv( m_serverData.sock, ioData );
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -42,14 +42,14 @@ void AnT::Client::Send( string msg )
 {
 	IOData* ioData = new IOData( EIOMode::Write );
 
-	PktLogin* pktLogin = new PktLogin;
-	pktLogin->SetId( "Test123" );
-	pktLogin->SetPw( 331 );
-	pktLogin->se();
+	PktLogin pktLogin;
+	pktLogin.SetId( "Test123" );
+	pktLogin.SetPw( 331 );
+	pktLogin.se();
 
-	ioData->SetWsaBufBuf( pktLogin->v.data(), pktLogin->v.size() );
+	ioData->SetWsaBufBuf( pktLogin.v.data(), pktLogin.v.size() );
 
-	AsyncSend( m_serverData.sock, ioData, pktLogin->v.size() );
+	_AsyncSend( m_serverData.sock, ioData, pktLogin.v.size() );
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ void AnT::Client::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 	cout << readMsg << endl;
 
 	IOData* ReadioData = new IOData( EIOMode::Read );
-	AsyncRecv( m_serverData.sock, ReadioData );
+	_AsyncRecv( m_serverData.sock, ReadioData );
 }
 
 ///////////////////////////////////////////////////////////////////////////

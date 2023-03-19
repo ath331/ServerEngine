@@ -25,7 +25,7 @@ public:
 	void SetPw( int pw ) { m_pw = pw; }
 
 	/// 패킷 직렬화 테스트용
-	vector<char> v;
+	vector< char > v;
 
 	void se()
 	{

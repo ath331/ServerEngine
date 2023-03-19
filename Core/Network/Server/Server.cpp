@@ -64,7 +64,7 @@ void AnT::Server::RunServer(
 		IOData* ioData = new IOData( EIOMode::Read );
 		ioDataVec.push_back( ioData );
 
-		AsyncRecv( socketData->sock, ioData );
+		_AsyncRecv( socketData->sock, ioData );
 	}
 }
 
@@ -155,5 +155,5 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 	cout <<  "ID : " << pktLogin->GetId() << endl;
 
 	ioData = new IOData;
-	AsyncRecv( socketData->sock, ioData );
+	_AsyncRecv( socketData->sock, ioData );
 }
