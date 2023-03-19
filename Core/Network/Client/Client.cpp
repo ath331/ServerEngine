@@ -44,15 +44,12 @@ void AnT::Client::Send( string msg )
 
 	PktLogin* pktLogin = new PktLogin;
 	pktLogin->SetId( "Test123" );
+	pktLogin->SetPw( 331 );
 	pktLogin->se();
 
-	ioData->SetWsaBufBuf( pktLogin->m_buffer );
-	ioData->SetWsaBufLen( sizeof( PktLogin ) );
+	ioData->SetWsaBufBuf( pktLogin->v.data(), pktLogin->v.size() );
 
-	// ioData->SetWsaBufBuf( msg );
-	// ioData->SetWsaBufLen( msg.size() );
-
-	AsyncSend( m_serverData.sock, ioData, msg.size()  );
+	AsyncSend( m_serverData.sock, ioData, pktLogin->v.size() );
 }
 
 ///////////////////////////////////////////////////////////////////////////
