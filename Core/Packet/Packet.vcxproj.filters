@@ -22,18 +22,18 @@
     <Filter Include="ReaderStream">
       <UniqueIdentifier>{1fb75567-d635-457b-9d85-4aae88ae1eba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{332284b6-e7fb-4b93-896b-cd3cd9c35082}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet\Login">
+      <UniqueIdentifier>{b90f3459-a0bb-4520-9cd4-44aa2ca21b0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Packet\Login\PktLogin.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Packet\Login\PktLoginResult.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Packet\PacketBase.h">
@@ -48,18 +48,18 @@
     <ClInclude Include="ReaderStream\ReaderStream.h">
       <Filter>ReaderStream</Filter>
     </ClInclude>
+    <ClInclude Include="Packet\Login\PktLogin.h">
+      <Filter>Packet\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\Login\PktLoginResult.h">
+      <Filter>Packet\Login</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Packet.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Packet\Login\PktLogin.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Packet\Login\PktLoginResult.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Packet\PacketBase.cpp">
@@ -70,6 +70,12 @@
     </ClCompile>
     <ClCompile Include="ReaderStream\ReaderStream.cpp">
       <Filter>ReaderStream</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\Login\PktLogin.cpp">
+      <Filter>Packet\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\Login\PktLoginResult.cpp">
+      <Filter>Packet\Login</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

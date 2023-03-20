@@ -8,6 +8,7 @@
 
 #include <winsock2.h>
 #include "EnumConst.h"
+#include "../../Packet/WriteStream/WriteStream.h"
 
 
 #define BUF_SIZE 1024 * 5
@@ -43,7 +44,6 @@ namespace AnT
 		OVERLAPPED* GetOverlappedPtr() { return &m_overlapped; }        //< overlapped의 포인터 반환
 
 		/// string 전송용 테스트 함수 이후 패킷 세팅으로 바꾸기
-		void        SetWsaBufBuf( string str ) { std::copy( str.begin(), str.end(), m_buffer ); };
 		void        SetWsaBufBuf( char* str, int size ) { std::memcpy( m_buffer, str, size ); };
 		void        SetWsaBufLen( int len ) { m_wsaBuf.len = len; }     //< WsaBuf의 Len 길이를 설정
 
@@ -54,8 +54,13 @@ namespace AnT
 			/// IOData의 주소 시작을 OVERLAPPED와 맞추기 위해 가장 위에 선언해야함
 			OVERLAPPED m_overlapped;
 			WSABUF     m_wsaBuf;
+
 	public:
 			char       m_buffer[ BUF_SIZE ];
+
+			/// 직렬화 데이터
+			WriteStream writeStream;
+
 	private:
 			EIOMode    m_ioMode;           ///< READ or WRITE
 			int        m_recvBytes = 0;    ///< 수신 바이트

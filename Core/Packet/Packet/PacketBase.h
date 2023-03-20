@@ -5,15 +5,17 @@
 
 #pragma once
 #include "pch.h"
+#include "../WriteStream/WriteStream.h"
+#include "../ReaderStream/ReaderStream.h"
 
 
 class PacketBase
 {
-protected:
-	/// int 타입 직렬화 오버로딩
-	ostream& operator << ( int data );
+public:
+	/// 직렬화
+	virtual void Serialize( WriteStream& writeStream ) = 0;
 
-	/// string 타입 직렬화 오버로딩
-	ostream& operator << ( const string& data );
+	/// 역직렬화
+	virtual void Deserialize( ReaderStream& readerStream ) = 0;
 };
 

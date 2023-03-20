@@ -32,9 +32,20 @@ int WriteStream::GetSize()
 }
 
 ///////////////////////////////////////////////////////////////////////////
-// @brief     data를 size만큼 직렬화
+// @brief     data를 size만큼 직렬화 한다.
 ///////////////////////////////////////////////////////////////////////////
-void WriteStream::_Write( const void* data, int size )
+void WriteStream::operator<<( int data )
 {
-	m_buffer.insert( m_buffer.end(), reinterpret_cast<char*>( &data ), reinterpret_cast<char*>( &data ) + size );
+	m_buffer.insert( m_buffer.end(), reinterpret_cast<char*>( &data ), reinterpret_cast<char*>( &data ) + sizeof( data ) );
+}
+
+///////////////////////////////////////////////////////////////////////////
+// @brief     data를 size만큼 직렬화 한다.
+///////////////////////////////////////////////////////////////////////////
+void WriteStream::operator<<( const string& data )
+{
+	int strSize = data.length();
+	*this << strSize;
+
+	m_buffer.insert( m_buffer.end(), data.c_str(), data.c_str() + data.length() );
 }

@@ -2,6 +2,7 @@
 #include "../Server/GameServer/LibraryPch.h"
 #include "../Server/GameServer/NetWorkPch.h"
 #include "Network/Client/Client.h"
+#include "Packet/Packet/Login/PktLogin.h"
 
 void ErrorHandling( string message );
 
@@ -29,12 +30,16 @@ int main( int argc, char* argv[] )
 
 		cout << "'Exit' is exit" << endl;
 		cout << " [Chat] : ";
-		cin >> msg;
+		// cin >> msg;
 
 		if ( msg.compare( "Exit" ) == 0 )
 			break;
 
-		client.Send( msg );
+		PktLogin* pktLogin = new PktLogin;
+		pktLogin->SetId( "Test123" );
+		pktLogin->SetPw( 331 );
+
+		client.Send( pktLogin );
 	}
 
 	WSACleanup();

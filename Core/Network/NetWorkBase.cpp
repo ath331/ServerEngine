@@ -98,7 +98,9 @@ void AnT::NetWorkBase::_AsyncSend( SOCKET sock, IOData* ioData, int sendSize )
 	if ( sendSize <= 0 )
 		return;
 
-	ioData->SetWsaBufLen( sendSize );
+	ioData->SetWsaBufBuf( ioData->writeStream.GetBuffer(), ioData->writeStream.GetSize() ); // 여기서 size가 필요한가?
+	ioData->SetWsaBufLen( ioData->writeStream.GetSize() );
+
 	ioData->SetIOMode( EIOMode::Write );
 
 	int sendResult = WSASend( 

@@ -6,8 +6,7 @@
 #include "pch.h"
 #include "Client.h"
 #include <process.h>
-// 테스트용 인클루드
-#include "../../Packet/Packet/Login/PktLogin.h"
+#include "../../Packet/Packet/PacketBase.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -38,18 +37,13 @@ void AnT::Client::RunIOThreads()
 ///////////////////////////////////////////////////////////////////////////
 // @brief     Send 한다
 ///////////////////////////////////////////////////////////////////////////
-void AnT::Client::Send( string msg )
+void AnT::Client::Send( PacketBase* pkt )
 {
 	IOData* ioData = new IOData( EIOMode::Write );
 
-	PktLogin pktLogin;
-	pktLogin.SetId( "Test123" );
-	pktLogin.SetPw( 331 );
-	pktLogin.se();
+	pkt->Serialize( ioData->writeStream );
 
-	ioData->SetWsaBufBuf( pktLogin.v.data(), pktLogin.v.size() );
-
-	_AsyncSend( m_serverData.sock, ioData, pktLogin.v.size() );
+	_AsyncSend( m_serverData.sock, ioData );
 }
 
 ///////////////////////////////////////////////////////////////////////////

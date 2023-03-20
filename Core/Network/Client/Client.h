@@ -7,6 +7,9 @@
 #include "../NetWorkBase.h"
 
 
+class PacketBase;
+
+
 namespace AnT
 {
 	class Client
@@ -24,7 +27,7 @@ namespace AnT
 		void RunIOThreads();
 
 		/// Send 한다
-		void Send( string msg );
+		void Send( PacketBase* pkt );
 
 	private:
 		/// 서버 정보
