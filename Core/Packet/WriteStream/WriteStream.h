@@ -7,9 +7,6 @@
 #include "pch.h"
 
 
-class PacketBase;
-
-
 class WriteStream
 {
 public:
@@ -29,9 +26,15 @@ public:
 
 public:
 	/// data를 size만큼 직렬화 한다.
+	void operator<< ( bool data );
+
+	/// data를 size만큼 직렬화 한다.
 	void operator<< ( int data );
 
 	/// data를 size만큼 직렬화 한다.
 	void operator<< ( const string& data );
+
+	/// data를 size만큼 직렬화 한다.
+	void operator<< ( float data );
 };
 

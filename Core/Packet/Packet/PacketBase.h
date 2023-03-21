@@ -16,6 +16,6 @@ public:
 	virtual void Serialize( WriteStream& writeStream ) = 0;
 
 	/// 역직렬화
-	virtual void Deserialize( ReaderStream& readerStream ) = 0;
+	virtual void Deserialize( char* readerStream ) = 0;
 };
 

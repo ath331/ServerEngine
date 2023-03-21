@@ -17,7 +17,7 @@ class PktLoginResult
 	}
 
 	/// 역직렬화 ( 컴파일용 임시 선언 )
-	virtual void Deserialize( ReaderStream& readerStream ) override
+	virtual void Deserialize( char* readerStream ) override
 	{
 
 	}

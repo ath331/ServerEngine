@@ -29,15 +29,5 @@ public:
 	virtual void Serialize( WriteStream& writeStream ) override;
 
 	/// 역직렬화
-	virtual void Deserialize( ReaderStream& readerStream ) override;
-
-	void de( char* deBuffer, int size )
-	{
-		int id_size;
-		std::memcpy( &id_size, deBuffer, sizeof( id_size ) );
-		m_id.resize( id_size );
-		std::memcpy( &m_id[ 0 ], deBuffer + sizeof( id_size ), id_size );
-
-		std::memcpy( &m_pw, deBuffer + sizeof( id_size ) + id_size, sizeof( m_pw ) );
-	}
+	virtual void Deserialize( char* readerStream ) override;
 };

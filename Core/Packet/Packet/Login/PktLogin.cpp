@@ -19,6 +19,13 @@ void PktLogin::Serialize( WriteStream& writeStream )
 ///////////////////////////////////////////////////////////////////////////
 // @brief     역직렬화
 ///////////////////////////////////////////////////////////////////////////
-void PktLogin::Deserialize( ReaderStream& readerStream )
+void PktLogin::Deserialize( char* readerStream )
 {
+	int id_size;
+	std::memcpy( &id_size, readerStream, sizeof( id_size ) );
+
+	m_id.resize( id_size );
+	std::memcpy( &m_id[ 0 ], readerStream + sizeof( id_size ), id_size );
+
+	std::memcpy( &m_pw, readerStream + sizeof( id_size ) + id_size, sizeof( m_pw ) );
 }
