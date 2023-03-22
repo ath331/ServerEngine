@@ -11,6 +11,8 @@ class PktLogin
 	: public PacketBase
 {
 private:
+	using super = PacketBase;
+
 	string m_id; //< 로그인 시도 아이디
 	int    m_pw; //< 로그인 시도 비밀번호
 
@@ -21,7 +23,10 @@ public:
 	/// 로그인 시도 아이디 세팅
 	void SetId( const string& id ) { m_id = id; }
 
-	/// 로그인 시도 아이디 세팅
+	/// 로그인 시도 비밀번호 반환
+	int GetPw() { return m_pw; }
+
+	/// 로그인 시도 비밀번호 세팅
 	void SetPw( int pw ) { m_pw = pw; }
 
 public:
@@ -29,12 +34,5 @@ public:
 	virtual void Serialize( WriteStream& writeStream ) override;
 
 	/// 역직렬화
-	virtual void Deserialize( char* readerStream ) override;
-
-	/// 역직렬화
-	void Deserialize( ReaderStream& readerStream )
-	{
-		readerStream >> m_id;
-		readerStream >> m_pw;
-	}
+	virtual void Deserialize( ReaderStream& readerStream ) override;
 };
