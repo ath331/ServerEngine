@@ -30,4 +30,11 @@ public:
 
 	/// 开流纺拳
 	virtual void Deserialize( char* readerStream ) override;
+
+	/// 开流纺拳
+	void Deserialize( ReaderStream& readerStream )
+	{
+		readerStream >> m_id;
+		readerStream >> m_pw;
+	}
 };

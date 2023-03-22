@@ -7,31 +7,52 @@
 #include "ReaderStream.h"
 
 
+#define BUFFER_IS_NULL if ( IsBufferNull() )return;
+
+
 ///////////////////////////////////////////////////////////////////////////
 // @brief     data를 size만큼 직렬화 한다.
 ///////////////////////////////////////////////////////////////////////////
-void ReaderStream::operator>>( bool data )
+void ReaderStream::operator>>( bool& data )
 {
+	BUFFER_IS_NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////
 // @brief     data를 size만큼 직렬화 한다.
 ///////////////////////////////////////////////////////////////////////////
-int ReaderStream::operator>>( char* data )
+void ReaderStream::operator>>( int& data )
 {
-	return 0;
+	BUFFER_IS_NULL;
+
+	std::memcpy( &data, m_buffer + m_size, sizeof( data ) );
+
+	m_size += sizeof( data );
 }
 
 ///////////////////////////////////////////////////////////////////////////
 // @brief     data를 size만큼 직렬화 한다.
 ///////////////////////////////////////////////////////////////////////////
-void ReaderStream::operator>>( const string& data )
+void ReaderStream::operator>>( string& data )
 {
+	BUFFER_IS_NULL;
+
+	int id_size;
+	std::memcpy( &id_size, m_buffer + m_size, sizeof( id_size ) );
+
+	m_size += sizeof( id_size );
+
+	data.resize( id_size );
+	std::memcpy( &data[ 0 ], m_buffer + m_size, id_size );
+
+	m_size += id_size;
 }
 
 ///////////////////////////////////////////////////////////////////////////
 // @brief     data를 size만큼 직렬화 한다.
 ///////////////////////////////////////////////////////////////////////////
-void ReaderStream::operator>>( float data )
+void ReaderStream::operator>>( float& data )
 {
+	BUFFER_IS_NULL;
+
 }

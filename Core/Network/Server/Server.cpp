@@ -148,8 +148,11 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 	// Echo 서버이므로 그대로 바로 전송하는것
 	// AsyncSend( socketData->sock, ioData, bytesSize );
 
+	// 패킷을 만들사이즈만 넘겨야함.
+	ReaderStream readerStream( ioData->m_buffer );
+
 	PktLogin* pktLogin = new PktLogin;
-	pktLogin->Deserialize( ioData->m_buffer );
+	pktLogin->Deserialize( readerStream );
 
 	cout <<  "ID : " << pktLogin->GetId() << endl;
 

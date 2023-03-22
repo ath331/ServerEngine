@@ -9,10 +9,6 @@
 
 class WriteStream
 {
-public:
-	/// 생성자
-	WriteStream();
-
 private:
 	/// 패킷을 담을 버퍼
 	vector< char > m_buffer;
