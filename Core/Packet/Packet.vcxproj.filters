@@ -28,6 +28,9 @@
     <Filter Include="Packet\Login">
       <UniqueIdentifier>{b90f3459-a0bb-4520-9cd4-44aa2ca21b0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PacketFactory">
+      <UniqueIdentifier>{80bb91c3-cfa4-4ed1-9239-af00d36f0af8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -54,6 +57,12 @@
     <ClInclude Include="Packet\Login\PktLoginResult.h">
       <Filter>Packet\Login</Filter>
     </ClInclude>
+    <ClInclude Include="PacketId.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketFactory\PacketFactory.h">
+      <Filter>PacketFactory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Packet.cpp">
@@ -76,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="Packet\Login\PktLoginResult.cpp">
       <Filter>Packet\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketFactory\PacketFactory.cpp">
+      <Filter>PacketFactory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

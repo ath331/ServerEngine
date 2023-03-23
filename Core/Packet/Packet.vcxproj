@@ -151,6 +151,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="PacketFactory\PacketFactory.h" />
+    <ClInclude Include="PacketId.h" />
     <ClInclude Include="Packet\EResultCode.h" />
     <ClInclude Include="Packet\Login\PktLogin.h" />
     <ClInclude Include="Packet\Login\PktLoginResult.h" />
@@ -161,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Packet.cpp" />
+    <ClCompile Include="PacketFactory\PacketFactory.cpp" />
     <ClCompile Include="Packet\Login\PktLogin.cpp" />
     <ClCompile Include="Packet\Login\PktLoginResult.cpp" />
     <ClCompile Include="Packet\PacketBase.cpp" />

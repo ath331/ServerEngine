@@ -10,6 +10,15 @@
 class PktLogin
 	: public PacketBase
 {
+public:
+	/// »ý¼ºÀÚ
+	PktLogin()
+	{
+		SetPktId( EPacketId::PktLogin );
+		m_id = "";
+		m_pw = 0;
+	}
+
 private:
 	using super = PacketBase;
 

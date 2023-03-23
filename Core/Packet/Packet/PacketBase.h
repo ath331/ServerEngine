@@ -5,13 +5,14 @@
 
 #pragma once
 #include "pch.h"
+#include "PacketId.h"
 #include "../WriteStream/WriteStream.h"
 #include "../ReaderStream/ReaderStream.h"
 
 
 class PacketBase
 {
-private:
+protected:
 	/// 패킷 아이디
 	int m_pktId = 0;
 
@@ -20,7 +21,7 @@ public:
 	int GetPktId() { return m_pktId; }
 
 	/// 패킷 아이디를 세팅한다.
-	void SetPktId( int pktId ) { m_pktId = pktId; }
+	void SetPktId( EPacketId pktId ) { m_pktId = (int)( pktId ); }
 
 public:
 	/// 직렬화
