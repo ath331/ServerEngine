@@ -51,15 +51,16 @@ namespace AnT
 		int*        GetFlagPtr()      { return &m_flags;     }          //< 플래그의 포인터 반환
 
 	private:
-			/// IOData의 주소 시작을 OVERLAPPED와 맞추기 위해 가장 위에 선언해야함
-			OVERLAPPED m_overlapped;
-			WSABUF     m_wsaBuf;
+		/// IOData의 주소 시작을 OVERLAPPED와 맞추기 위해 가장 위에 선언해야함
+		OVERLAPPED m_overlapped;
+		WSABUF     m_wsaBuf;
 
 	public:
-			char       m_buffer[ BUF_SIZE ];
+		/// 역직렬화 할 데이터
+		char       m_buffer[ BUF_SIZE ];
 
-			/// 직렬화 데이터
-			WriteStream writeStream;
+		/// 직렬화 데이터
+		WriteStream writeStream;
 
 	private:
 			EIOMode    m_ioMode;           ///< READ or WRITE

@@ -8,6 +8,8 @@
 #include <process.h>
 // 테스트용 인클루드
 #include "../../Packet/Packet/Login/PktLogin.h"
+#include "../../Packet/PacketFactory/PacketFactory.h"
+
 
 ///////////////////////////////////////////////////////////////////////////
 // @brief     생성자
@@ -141,20 +143,22 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 
 	if ( !bytesSize )
 	{
+		// Half-Close로 바꾸기
 		_CloseSocket( socketData, ioData );
 		return;
 	}
 
-	// Echo 서버이므로 그대로 바로 전송하는것
-	// AsyncSend( socketData->sock, ioData, bytesSize );
+	PacketFactory packetFactory;
+	PacketBase* packet = packetFactory.MakePacket( ioData->m_buffer, bytesSize );
 
-	// 패킷을 만들사이즈만 넘겨야함.
-	ReaderStream readerStream( ioData->m_buffer );
+	if ( !packet )
+		_AsyncRecv( socketData->sock, ioData );
 
-	PktLogin* pktLogin = new PktLogin;
-	pktLogin->Deserialize( readerStream );
+	ReaderStream readerStream( packet );
 
-	cout <<  "ID : " << pktLogin->GetId() << endl;
+	packet->Deserialize( readerStream );
+
+	/// TODO : Pkt을 로직스레드로 넘기기. 로직스레드에서 적절한 핸들러 호출할것.
 
 	ioData = new IOData;
 	_AsyncRecv( socketData->sock, ioData );
