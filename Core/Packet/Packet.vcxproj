@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="PacketFactory\PacketCreateList.h" />
     <ClInclude Include="PacketFactory\PacketFactory.h" />
     <ClInclude Include="PacketId.h" />
     <ClInclude Include="Packet\EResultCode.h" />

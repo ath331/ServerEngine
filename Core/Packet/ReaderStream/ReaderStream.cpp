@@ -54,5 +54,4 @@ void ReaderStream::operator>>( string& data )
 void ReaderStream::operator>>( float& data )
 {
 	BUFFER_IS_NULL;
-
 }

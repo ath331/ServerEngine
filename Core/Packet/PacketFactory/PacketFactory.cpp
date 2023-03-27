@@ -5,7 +5,7 @@
 
 #include "pch.h"
 #include "PacketFactory.h"
-#include "../Packet/Packet/PacketBase.h"
+#include "../Packet/PacketFactory/PacketCreateList.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -27,17 +27,26 @@ bool PacketFactory::IsPacketBaseSize( int receiveSize )
 ///////////////////////////////////////////////////////////////////////////
 // @brief     data에서 패킷사이즈 만큼을 추출한다.
 ///////////////////////////////////////////////////////////////////////////
-char* PacketFactory::SubData( char* data, int receiveSize )
+char* PacketFactory::_SubData( char* data, int size )
 {
-	memmove( data, data + 1, m_packetBaseSize );
+	/// TODO 데이터 추출하는 부분 폴리싱
+	/// 데이터 떙기고 뒤에 자르는거 필요함
+	memmove( data, data + size, size );
 
 	return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////
-// @brief     빈패킷을 생성하여 반환한다.
+// @brief     패킷을 생성하여 반환한다.
 ///////////////////////////////////////////////////////////////////////////
-bool PacketFactory::MakePacket( PacketBase* packet )
+PacketBase* PacketFactory::MakePacket( char* data, int receiveSize )
 {
-	return true;
+	data = _SubData( data, m_packetBaseSize );
+
+	ReaderStream readerStream( data );
+
+	PacketBase* packet = new PacketBase; // TODO : 스마트 포인터로 바꾸기
+	packet->Deserialize( readerStream );
+
+	return CreatePacket( (EPacketId)( packet->GetPktId() ) );
 }
