@@ -149,14 +149,25 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 	}
 
 	PacketFactory packetFactory;
-	PacketBase* packet = packetFactory.MakePacket( ioData->m_buffer, bytesSize );
+
+	if ( !packetFactory.IsPacketBaseSize( bytesSize ) )
+		_AsyncRecv( socketData->sock, ioData );
+
+	char* packetData = packetFactory.SubData( ioData->m_buffer, bytesSize );
+	if ( !packetData )
+		_AsyncRecv( socketData->sock, ioData );
+
+	ReaderStream readerStream( packetData );
+
+	PacketBase* packet = new PacketBase; // TODO : 스마트 포인터로 바꾸기
 
 	if ( !packet )
 		_AsyncRecv( socketData->sock, ioData );
 
-	ReaderStream readerStream( packet );
-
 	packet->Deserialize( readerStream );
+
+	if ( !packetFactory.MakePacket( packet ) )
+		_AsyncRecv( socketData->sock, ioData );
 
 	/// TODO : Pkt을 로직스레드로 넘기기. 로직스레드에서 적절한 핸들러 호출할것.
 

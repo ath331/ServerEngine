@@ -5,7 +5,7 @@
 
 #pragma once
 #include "pch.h"
-#include "PacketId.h"
+#include "../Packet/PacketId.h"
 #include "../WriteStream/WriteStream.h"
 #include "../ReaderStream/ReaderStream.h"
 

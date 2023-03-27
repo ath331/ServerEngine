@@ -16,6 +16,7 @@
 #include <set>
 #include <string>
 #include <algorithm>
+#include <memory>
 
 using namespace std;
 
