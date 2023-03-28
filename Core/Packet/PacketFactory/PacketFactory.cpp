@@ -31,7 +31,14 @@ char* PacketFactory::_SubData( char* data, int size )
 {
 	/// TODO 데이터 추출하는 부분 폴리싱
 	/// 데이터 떙기고 뒤에 자르는거 필요함
+	
+	string s( data );
+
+	size = 1;
+
 	memmove( data, data + size, size );
+
+	string s2( data );
 
 	return nullptr;
 }
