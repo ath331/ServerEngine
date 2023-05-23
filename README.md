@@ -1,6 +1,7 @@
 # ServerEngine
-서버 엔진 프레임워크 
+서버 엔진 프레임워크
 
+개발버전 : vs2022
 
 TODO :
 [SERVER] 
