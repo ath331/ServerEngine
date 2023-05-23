@@ -151,11 +151,17 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 	PacketFactory packetFactory;
 
 	if ( !packetFactory.IsPacketBaseSize( bytesSize ) )
+	{
 		_AsyncRecv( socketData->sock, ioData );
+		return;
+	}
 
 	PacketBase* packet = packetFactory.MakePacket( ioData->m_buffer, bytesSize );
 	if ( !packet )
+	{
 		_AsyncRecv( socketData->sock, ioData );
+		return;
+	}
 
 	/// TODO : Pkt을 로직스레드로 넘기기. 로직스레드에서 적절한 핸들러 호출할것.
 
