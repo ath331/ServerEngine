@@ -26,6 +26,5 @@ public:
 
 private:
 	/// data에서 패킷사이즈 만큼을 추출한다.
-	char* _SubData( char* data, int receiveSize );
+	void _SubData( char* data, char* src, int receiveSize );
 };
-

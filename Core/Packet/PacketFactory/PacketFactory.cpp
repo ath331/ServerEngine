@@ -27,10 +27,10 @@ bool PacketFactory::IsPacketBaseSize( int receiveSize )
 ///////////////////////////////////////////////////////////////////////////
 // @brief     data에서 패킷사이즈 만큼을 추출한다.
 ///////////////////////////////////////////////////////////////////////////
-char* PacketFactory::_SubData( char* data, int size )
+void PacketFactory::_SubData( char* data, char* src, int size )
 {
-	/// TODO 데이터 추출하는 부분 폴리싱
-	/// 데이터 떙기고 뒤에 자르는거 필요함
+	/// data에서 패킷 사이즈만 큼 src에 복사
+	/// 잘린 데이터만큼 앞으로 이동
 	
 	string s( data );
 
@@ -39,8 +39,6 @@ char* PacketFactory::_SubData( char* data, int size )
 	memmove( data, data + size, size );
 
 	string s2( data );
-
-	return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -48,9 +46,10 @@ char* PacketFactory::_SubData( char* data, int size )
 ///////////////////////////////////////////////////////////////////////////
 PacketBase* PacketFactory::MakePacket( char* data, int receiveSize )
 {
-	data = _SubData( data, m_packetBaseSize );
+	char* src = nullptr;
+	_SubData( data, src, m_packetBaseSize );
 
-	ReaderStream readerStream( data );
+	ReaderStream readerStream( src );
 
 	PacketBase* packet = new PacketBase; // TODO : 스마트 포인터로 바꾸기
 	packet->Deserialize( readerStream );
