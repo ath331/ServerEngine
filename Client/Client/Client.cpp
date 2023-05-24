@@ -39,9 +39,6 @@ int main( int argc, char* argv[] )
 		pktLogin->SetId( "Test123" );
 		pktLogin->SetPw( 331 );
 
-		// TODO : 패킷 사이즈를 알려줘야함
-		pktLogin->SetSize( sizeof( pktLogin ) );
-
 		client.Send( pktLogin );
 	}
 

@@ -16,6 +16,8 @@ void PktLogin::Serialize( WriteStream& writeStream )
 
 	writeStream << m_id;
 	writeStream << m_pw;
+
+	super::SetSize( writeStream.GetSize() );
 }
 
 ///////////////////////////////////////////////////////////////////////////

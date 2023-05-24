@@ -10,6 +10,12 @@
 class PktLogin
 	: public PacketBase
 {
+private:
+	using super = PacketBase;
+
+	string m_id; //< 로그인 시도 아이디
+	int    m_pw; //< 로그인 시도 비밀번호
+
 public:
 	/// 생성자
 	PktLogin()
@@ -18,12 +24,6 @@ public:
 		m_id = "";
 		m_pw = 0;
 	}
-
-private:
-	using super = PacketBase;
-
-	string m_id; //< 로그인 시도 아이디
-	int    m_pw; //< 로그인 시도 비밀번호
 
 public:
 	/// 로그인 시도 아이디 반환
