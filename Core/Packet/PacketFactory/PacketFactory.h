@@ -4,7 +4,9 @@
 
 
 #pragma once
-#include "../Packet/Packet/PacketBase.h"
+
+
+class PacketBase;
 
 
 class PacketFactory
@@ -26,5 +28,5 @@ public:
 
 private:
 	/// data에서 패킷사이즈 만큼을 추출한다.
-	void _SubData( char* data, char* src, int receiveSize );
+	void _SubData( char* data, char* dest, int receiveSize );
 };

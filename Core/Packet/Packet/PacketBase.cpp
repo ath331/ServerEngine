@@ -14,6 +14,7 @@
 void PacketBase::Serialize( WriteStream& writeStream )
 {
 	writeStream << m_pktId;
+	writeStream << m_size;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -22,4 +23,5 @@ void PacketBase::Serialize( WriteStream& writeStream )
 void PacketBase::Deserialize( ReaderStream& readerStream )
 {
 	readerStream >> m_pktId;
+	readerStream >> m_size;
 }

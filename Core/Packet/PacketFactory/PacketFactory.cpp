@@ -5,6 +5,7 @@
 
 #include "pch.h"
 #include "PacketFactory.h"
+#include "../Packet/Packet/PacketBase.h"
 #include "../Packet/PacketFactory/PacketCreateList.h"
 
 
@@ -27,18 +28,10 @@ bool PacketFactory::IsPacketBaseSize( int receiveSize )
 ///////////////////////////////////////////////////////////////////////////
 // @brief     data에서 패킷사이즈 만큼을 추출한다.
 ///////////////////////////////////////////////////////////////////////////
-void PacketFactory::_SubData( char* data, char* src, int size )
+void PacketFactory::_SubData( char* data, char* dest, int receiveSize )
 {
-	/// data에서 패킷 사이즈만 큼 src에 복사
-	/// 잘린 데이터만큼 앞으로 이동
-	
-	string s( data );
-
-	size = 1;
-
-	memmove( data, data + size, size );
-
-	string s2( data );
+	memcpy ( dest, data,  m_packetBaseSize );
+	memmove( data, data + m_packetBaseSize, receiveSize );
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -46,13 +39,18 @@ void PacketFactory::_SubData( char* data, char* src, int size )
 ///////////////////////////////////////////////////////////////////////////
 PacketBase* PacketFactory::MakePacket( char* data, int receiveSize )
 {
-	char* src = nullptr;
-	_SubData( data, src, m_packetBaseSize );
+	char* dest = new char;
+	_SubData( data, dest, receiveSize );
 
-	ReaderStream readerStream( src );
+	if ( !dest )
+		return nullptr;
+
+	ReaderStream readerStream( dest );
 
 	PacketBase* packet = new PacketBase; // TODO : 스마트 포인터로 바꾸기
 	packet->Deserialize( readerStream );
+
+	delete( dest );
 
 	return CreatePacket( (EPacketId)( packet->GetPktId() ) );
 }

@@ -8,7 +8,7 @@
 
 enum class EPacketId : int
 {
-	PktLogin = 0, //< 로그인 패킷
-	PktLoginResult = 1, //< 로그인 결과 패킷
+	PktLogin = 3, //< 로그인 패킷
+	PktLoginResult = 4, //< 로그인 결과 패킷
 	Max //< 열거값의 마지막 값
 };
