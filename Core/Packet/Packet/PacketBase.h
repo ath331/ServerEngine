@@ -27,10 +27,10 @@ public:
 	void SetPktId( EPacketId pktId ) { m_pktId = (int)( pktId ); }
 
 	/// 패킷 사이즈를 반환한다.
-	int GetSize() { return m_size; }
+	int GetSize();
 
-	/// 패킷 아이디를 세팅한다.
-	void SetSize( int size ) { m_size = size; }
+	/// 패킷 사이즈를 세팅한다.
+	virtual void SetSize() {};
 
 public:
 	/// 직렬화

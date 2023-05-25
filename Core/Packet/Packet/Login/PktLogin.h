@@ -38,7 +38,11 @@ public:
 	/// 로그인 시도 비밀번호 세팅
 	void SetPw( int pw ) { m_pw = pw; }
 
+/// PacketBase Override
 public:
+	/// 패킷 사이즈를 세팅한다.
+	virtual void SetSize() override;
+
 	/// 직렬화
 	virtual void Serialize( WriteStream& writeStream ) override;
 
