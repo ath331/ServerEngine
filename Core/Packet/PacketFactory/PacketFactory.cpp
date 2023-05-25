@@ -50,7 +50,8 @@ PacketBase* PacketFactory::MakePacket( char* data, int receiveSize )
 	PacketBase* packet = new PacketBase; // TODO : 스마트 포인터로 바꾸기
 	packet->Deserialize( readerStream );
 
-	delete( dest );
+	// TODO : dest가 동적할당이라 해제해야하는데 에러뜸
+	// delete( dest );
 
-	return CreatePacket( (EPacketId)( packet->GetPktId() ) );
+	return packet;
 }
