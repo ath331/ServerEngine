@@ -31,7 +31,45 @@ bool PacketFactory::IsPacketBaseSize( int receiveSize )
 void PacketFactory::_SubData( char* data, char* dest, int receiveSize )
 {
 	memcpy ( dest, data,  m_packetBaseSize );
-	memmove( data, data + m_packetBaseSize, receiveSize );
+}
+
+///////////////////////////////////////////////////////////////////////////
+// @brief     data를 앞으로 move 한다.
+///////////////////////////////////////////////////////////////////////////
+void PacketFactory::_MoveData( char* data, int size )
+{
+	memmove( data, data + size, size );
+}
+
+///////////////////////////////////////////////////////////////////////////
+// @brief     패킷 베이스를 생성하여 반환한다.
+///////////////////////////////////////////////////////////////////////////
+PacketBase* PacketFactory::_MakePacketBase( char* data, int receiveSize )
+{
+	// TODO : 해제 시점 찾기
+	// _SubData()에서 힙이 스택으로 덮어져서 댕글링됨? 그래서 delete할때 터지는듯
+	char* dest = new char;
+	_SubData( data, dest, receiveSize );
+
+	if ( !dest )
+	{
+		// delete( dest );
+		return nullptr;
+	}
+
+	ReaderStream readerStream( dest );
+
+	PacketBase* packet = new PacketBase; // TODO : 스마트 포인터로 바꾸기?
+	packet->Deserialize( readerStream );
+
+	if ( !packet )
+	{
+		// delete( dest );
+		delete( packet );
+		return nullptr;
+	}
+
+	return packet;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -39,19 +77,22 @@ void PacketFactory::_SubData( char* data, char* dest, int receiveSize )
 ///////////////////////////////////////////////////////////////////////////
 PacketBase* PacketFactory::MakePacket( char* data, int receiveSize )
 {
-	char* dest = new char;
-	_SubData( data, dest, receiveSize );
-
-	if ( !dest )
+	PacketBase* packetBase = _MakePacketBase( data, receiveSize );
+	if ( !packetBase )
 		return nullptr;
 
-	ReaderStream readerStream( dest );
+	if ( packetBase->GetSize() < receiveSize )
+	{
+		delete( packetBase );
+		return nullptr;
+	}
 
-	PacketBase* packet = new PacketBase; // TODO : 스마트 포인터로 바꾸기
-	packet->Deserialize( readerStream );
-
-	// TODO : dest가 동적할당이라 해제해야하는데 에러뜸
-	// delete( dest );
+	PacketBase* packet = new PacketBase;
+	
+	// TODO : 댕글링되는데 다른 방법찾기
+	char* dest = new char;
+	_SubData ( data, dest, packet->GetSize() );
+	_MoveData( data, packet->GetSize()       );
 
 	return packet;
 }
