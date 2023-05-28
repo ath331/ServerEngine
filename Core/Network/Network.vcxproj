@@ -156,6 +156,7 @@
     <ClInclude Include="EnumConst.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="IOData\IOData.h" />
+    <ClInclude Include="IOData\IODataType.h" />
     <ClInclude Include="NetWorkBase.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Server\Server.h" />

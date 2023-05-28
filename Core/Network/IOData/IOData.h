@@ -68,3 +68,5 @@ namespace AnT
 			int        m_flags     = 0;    ///< ÇÃ·¡±×
 	};
 }
+
+#include "IODataType.h"

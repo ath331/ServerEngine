@@ -38,20 +38,14 @@ void AnT::Server::RunServer(
 	cout << "[PORT]          : " << port << endl;
 	cout << "[IoThreadCount] : " << ioThreadCount << endl;
 
-	// TODO : 静饭靛 概聪历 积己 抗沥
-	vector< HANDLE > threadHandleVec;
-
 	for ( int i = 0; i < ioThreadCount; i++ )
-		threadHandleVec.push_back( (HANDLE)( _beginthreadex( NULL, 0, _RunIOThreadMain, this, 0, NULL ) ) );
+		m_threadHandleVec.push_back( (HANDLE)( _beginthreadex( NULL, 0, _RunIOThreadMain, this, 0, NULL ) ) );
 
 	m_serverSockData = new SocketData;
 	m_serverSockData->InitializeSocketInfo();
 
 	_BindSocket  ( m_serverSockData );
 	_ListenScoket( m_serverSockData );
-
-	// TODO : 技记 包府 概聪历 积己 抗沥
-	vector< IOData* >     ioDataVec;
 
 	while ( 1 )
 	{
@@ -64,7 +58,7 @@ void AnT::Server::RunServer(
 		_RegisterCompletionPort( socketData->sock, socketData );
 			
 		IOData* ioData = new IOData( EIOMode::Read );
-		ioDataVec.push_back( ioData );
+		m_iODataPtrVec.push_back( ioData );
 
 		_AsyncRecv( socketData->sock, ioData );
 	}

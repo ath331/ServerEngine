@@ -1,0 +1,16 @@
+///////////////////////////////////////////////////////////////////////////
+// @brief     IODataType Class
+///////////////////////////////////////////////////////////////////////////
+
+
+#pragma once
+
+
+/// IOData 포인터 타입 정의
+using IODataPtr = AnT::IOData*;
+
+/// IOData 벡터 타입 정의
+using IODataVec = vector< AnT::IOData >;
+
+/// IOData 포인터 벡터 타입 정의
+using IODataPtrVec = vector< IODataPtr >;

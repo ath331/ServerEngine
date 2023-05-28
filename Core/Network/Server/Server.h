@@ -21,8 +21,12 @@ namespace AnT
 		~Server();
 
 	private:
-		SocketData*       m_serverSockData;          //< 서버 소켓 데이터
-		SocketDataManager m_clientSocketDataManager; //< 클라이언트 소켓 데이터 관리자
+		SocketData*         m_serverSockData;            //< 서버 소켓 데이터
+		SocketDataManager   m_clientSocketDataManager;   //< 클라이언트 소켓 데이터 관리자
+
+		IODataPtrVec        m_iODataPtrVec;              //< IOData 관리 벡터
+
+		vector< HANDLE >    m_threadHandleVec;           //< IOThread 관리 벡터
 
 	public:
 		/// 서버시작 함수
