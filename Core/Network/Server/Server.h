@@ -45,10 +45,11 @@ namespace AnT
 		/// listen 함수를 실행한다.
 		void _ListenScoket( SocketData* sockData, int bagLog = 5 );
 
-	private:
 		/// 소켓을 종료시킨다.
 		void _CloseSocket( SocketData* socketData, IOData* ioData );
 
+// override NetWorkBase
+	private:
 		virtual void _AsyncRecvCallback( SocketData* socketData, IOData* ioData, int bytesSize ) override; /// 비동기 수신 완료
 		virtual void _AsyncSendCallback( SocketData* socketData, IOData* ioData, int bytesSize ) override; /// 비동기 송신 완료
 	};

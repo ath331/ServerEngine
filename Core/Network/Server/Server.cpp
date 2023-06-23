@@ -166,6 +166,8 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 
 	/// TODO : Pkt을 로직스레드로 넘기기. 로직스레드에서 적절한 핸들러 호출할것.
 
+
+
 	/// Send 완료시 해제
 	ioData = new IOData;
 	_AsyncRecv( socketData->sock, ioData );
