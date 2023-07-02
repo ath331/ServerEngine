@@ -6,6 +6,7 @@
 #include "pch.h"
 #include "LibraryPch.h"
 #include "NetWorkPch.h"
+#include "CorePch.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -16,6 +17,8 @@ int main()
 	AnT::System system;
 
 	AnT::Server server;
+
+	ThreadManager logicThreadManager;
 
 	int ioThreadCount = system.GetProcessorsCount() - 2;
 	ioThreadCount = 5; // 테스트용 카운트 대입

@@ -156,6 +156,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CorePch.h" />
     <ClInclude Include="LibraryPch.h" />
     <ClInclude Include="NetWorkPch.h" />
     <ClInclude Include="Packet\Login\PktLoginHandler.h" />

@@ -50,5 +50,8 @@
     <ClInclude Include="Packet\PktHandlerBase.h">
       <Filter>Packet</Filter>
     </ClInclude>
+    <ClInclude Include="CorePch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
