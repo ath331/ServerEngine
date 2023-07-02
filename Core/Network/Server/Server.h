@@ -8,6 +8,9 @@
 #include "../SocketData/SocketDataManager.h"
 
 
+class ThreadManager;
+
+
 namespace AnT
 {
 	class Server
@@ -15,7 +18,7 @@ namespace AnT
 	{
 	public:
 		/// 생성자
-		Server();
+		Server( ThreadManager* logicThreadManager );
 
 		/// 소멸자
 		~Server();
@@ -26,13 +29,14 @@ namespace AnT
 
 		IODataPtrVec        m_iODataPtrVec;              //< IOData 관리 벡터
 
-		vector< HANDLE >    m_threadHandleVec;           //< IOThread 관리 벡터
+		ThreadManager*      m_ioThreadManager;           //< IOThread 관리 매니저
+		ThreadManager*      m_logicThreadManager;        //< Logicthread 관리 매니저
 
 	public:
 		/// 서버시작 함수
 		void RunServer(
-			short port          = 9999,
-			int   ioThreadCount = 5 );
+			short          port               = 9999,
+			int            ioThreadCount      = 5);
 
 	private:
 		/// 에러 메시지 출력 함수

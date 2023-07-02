@@ -7,3 +7,7 @@
 #include "ThreadManager.h"
 
 
+void ThreadManager::Push( HANDLE thread )
+{
+	m_threadVec.push_back( thread );
+}

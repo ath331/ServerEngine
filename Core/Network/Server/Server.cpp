@@ -6,6 +6,7 @@
 #include "pch.h"
 #include "Server.h"
 #include <process.h>
+#include "../Core/Thread/ThreadManager.h"
 // 테스트용 인클루드
 #include "../../Packet/Packet/Login/PktLogin.h"
 #include "../../Packet/PacketFactory/PacketFactory.h"
@@ -14,9 +15,12 @@
 ///////////////////////////////////////////////////////////////////////////
 // @brief     생성자
 ///////////////////////////////////////////////////////////////////////////
-AnT::Server::Server()
+AnT::Server::Server( ThreadManager* logicThreadManager )
+	: m_logicThreadManager( logicThreadManager )
 {
 	cout << "Make Server Object" << endl;
+
+	m_ioThreadManager = new ThreadManager();
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -25,21 +29,33 @@ AnT::Server::Server()
 AnT::Server::~Server()
 {
 	WSACleanup();
+
+	if ( m_ioThreadManager )
+	{
+		delete m_ioThreadManager;
+		m_ioThreadManager = nullptr;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////
 // @brief     서버시작 함수
 ///////////////////////////////////////////////////////////////////////////
 void AnT::Server::RunServer(
-	short  port,
-	int    ioThreadCount )
+	short          port,
+	int            ioThreadCount )
 {
 	cout << "RunServer." <<  endl;
 	cout << "[PORT]          : " << port << endl;
 	cout << "[IoThreadCount] : " << ioThreadCount << endl;
 
+	if ( !m_ioThreadManager )
+	{
+		cout << "IOThreadManager is null" << endl;
+		exit( 1 );
+	}
+
 	for ( int i = 0; i < ioThreadCount; i++ )
-		m_threadHandleVec.push_back( (HANDLE)( _beginthreadex( NULL, 0, _RunIOThreadMain, this, 0, NULL ) ) );
+		m_ioThreadManager->Push( (HANDLE)( _beginthreadex( NULL, 0, _RunIOThreadMain, this, 0, NULL ) ) );
 
 	m_serverSockData = new SocketData;
 	m_serverSockData->InitializeSocketInfo();
