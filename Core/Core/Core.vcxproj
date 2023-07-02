@@ -150,11 +150,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Lock\Lock.h" />
+    <ClInclude Include="Lock\LockGuard.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Thread\ThreadManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="Lock\Lock.cpp" />
+    <ClCompile Include="Lock\LockGuard.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

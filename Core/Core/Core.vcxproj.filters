@@ -16,6 +16,9 @@
     <Filter Include="Thread">
       <UniqueIdentifier>{6321e085-fb5e-4303-88f6-c55501dcddfb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lock">
+      <UniqueIdentifier>{79accf98-e93f-4054-88c6-83d54e1c451f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -27,6 +30,12 @@
     <ClInclude Include="Thread\ThreadManager.h">
       <Filter>Thread</Filter>
     </ClInclude>
+    <ClInclude Include="Lock\Lock.h">
+      <Filter>Lock</Filter>
+    </ClInclude>
+    <ClInclude Include="Lock\LockGuard.h">
+      <Filter>Lock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -37,6 +46,12 @@
     </ClCompile>
     <ClCompile Include="Thread\ThreadManager.cpp">
       <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Lock\Lock.cpp">
+      <Filter>Lock</Filter>
+    </ClCompile>
+    <ClCompile Include="Lock\LockGuard.cpp">
+      <Filter>Lock</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

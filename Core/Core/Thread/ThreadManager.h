@@ -11,12 +11,14 @@
 class ThreadManager
 {
 private:
-	// 스레드 목록 타입 정의
+	/// 스레드 목록 타입 정의
 	using ThreadVec = std::vector< HANDLE >;
 
 private:
-	ThreadVec m_threadVec; //< 스레드 목록
+	/// 스레드 목록
+	ThreadVec m_threadVec;
 
 public:
-	void Push( HANDLE thread ); //< 스레드 저장
+	/// 스레드를 컨테이너에 담는다.
+	void Push( HANDLE thread );
 };
