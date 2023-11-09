@@ -14,6 +14,10 @@ private:
 	/// 스레드 목록 타입 정의
 	using ThreadVec = std::vector< HANDLE >;
 
+public:
+	/// 소멸자
+	virtual ~ThreadManager() {};
+
 private:
 	/// 스레드 목록
 	ThreadVec m_threadVec;

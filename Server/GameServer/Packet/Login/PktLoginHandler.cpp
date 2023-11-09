@@ -10,12 +10,12 @@
 ///////////////////////////////////////////////////////////////////////////
 // @brief     PktLogin 패킷을 핸들링한다.
 ///////////////////////////////////////////////////////////////////////////
-EResultCode PktLoginHandler::HandlePktLogin(
+EResultCode PktLoginHandler::_HandlePktLogin(
 	      SOCKET          sock, 
 	const PktLogin&       pktLogin, 
 	      PktLoginResult& pktLoginResult )
 {
 
 
-	return EResultCode::NoResultSend;
+	return EResultCode::Success;
 }

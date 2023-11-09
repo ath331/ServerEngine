@@ -27,11 +27,11 @@ public:
 	PacketBase* MakePacket( char* data, int sireceiveSizeze );
 
 private:
-	/// data에서 패킷사이즈 만큼을 추출한다.
-	void _SubData( char* data, char* dest, int receiveSize );
+	/// data에서 size 만큼 dest로 추출한다.
+	void _SubData( char* data, char*& dest, int size );
 
-	/// data를 앞으로 move 한다.
-	void _MoveData( char* data, int size );
+	/// data를 size만큼 dest로 move 한다.
+	void _MoveData( char* data, char* dest, int size );
 
 	/// 패킷 베이스를 생성하여 반환한다.
 	PacketBase* _MakePacketBase( char* data, int receiveSize );

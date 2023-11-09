@@ -120,7 +120,9 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <CallingConvention>Cdecl</CallingConvention>
-      <AdditionalIncludeDirectories>$(ProjectDir)\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\;$(SolutionDir)\..\Core\</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4828</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -141,7 +143,9 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <CallingConvention>Cdecl</CallingConvention>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\;$(SolutionDir)\..\Core\</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4828</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -157,6 +161,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="IOData\IOData.h" />
     <ClInclude Include="IOData\IODataType.h" />
+    <ClInclude Include="IOThread\IOThreadManager.h" />
     <ClInclude Include="NetWorkBase.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Server\Server.h" />
@@ -168,6 +173,7 @@
   <ItemGroup>
     <ClCompile Include="Client\Client.cpp" />
     <ClCompile Include="IOData\IOData.cpp" />
+    <ClCompile Include="IOThread\IOThreadManager.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="NetWorkBase.cpp" />
     <ClCompile Include="pch.cpp">

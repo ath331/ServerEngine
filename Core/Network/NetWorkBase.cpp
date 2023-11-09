@@ -80,9 +80,17 @@ void AnT::NetWorkBase::_AsyncRecv( SOCKET sock, IOData* ioData, int bufferCount 
 		ioData->GetOverlappedPtr(),
 		NULL );
 
-	if ( !recvResult )
+	int errorNum = WSAGetLastError();
+	if ( recvResult && errorNum != WSA_IO_PENDING )
 	{
-		cout << "Recv is fail!! ErrorCode : " << WSAGetLastError() << endl;
+		if ( errorNum == WSAECONNRESET )
+		{
+			cout << "Client Out" << endl;
+			_DeleteSafe( ioData );
+			return;
+		}
+
+		cout << "Recv is fail!! ErrorCode : " << errorNum << endl;
 		_DeleteSafe( ioData );
 	}
 }

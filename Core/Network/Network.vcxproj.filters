@@ -28,6 +28,9 @@
     <Filter Include="Client">
       <UniqueIdentifier>{468b753b-378d-48f8-b7e4-5547fe024ecc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IOThread">
+      <UniqueIdentifier>{4dc19fba-947f-4510-b81e-3bca59c5c22b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -66,6 +69,9 @@
     <ClInclude Include="IOData\IODataType.h">
       <Filter>IOData</Filter>
     </ClInclude>
+    <ClInclude Include="IOThread\IOThreadManager.h">
+      <Filter>IOThread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="NetWorkBase.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="IOThread\IOThreadManager.cpp">
+      <Filter>IOThread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

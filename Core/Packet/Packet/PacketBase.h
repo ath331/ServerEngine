@@ -4,7 +4,6 @@
 
 
 #pragma once
-#include "pch.h"
 #include "../PacketId.h"
 #include "../WriteStream/WriteStream.h"
 #include "../ReaderStream/ReaderStream.h"
@@ -39,3 +38,10 @@ public:
 	/// 역직렬화
 	virtual void Deserialize( ReaderStream& readerStream );
 };
+
+
+/// 패킷 포인터 타입 정의
+using PacketBasePtr = PacketBase*;
+
+/// 패킷 포인터 큐 타입 정의
+using PacketBasePtrQueue = std::queue< PacketBasePtr >;

@@ -6,7 +6,8 @@
 #include "pch.h"
 #include "Server.h"
 #include <process.h>
-#include "../Core/Thread/ThreadManager.h"
+#include "IOThread/IOThreadManager.h"
+#include "../../Server/GameServer/LogicThread/LogicThreadManager.h"
 // 테스트용 인클루드
 #include "../../Packet/Packet/Login/PktLogin.h"
 #include "../../Packet/PacketFactory/PacketFactory.h"
@@ -15,12 +16,12 @@
 ///////////////////////////////////////////////////////////////////////////
 // @brief     생성자
 ///////////////////////////////////////////////////////////////////////////
-AnT::Server::Server( ThreadManager* logicThreadManager )
+AnT::Server::Server( LogicThreadManager* logicThreadManager )
 	: m_logicThreadManager( logicThreadManager )
 {
 	cout << "Make Server Object" << endl;
 
-	m_ioThreadManager = new ThreadManager();
+	m_ioThreadManager = new IOThreadManager();
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -180,9 +181,7 @@ void AnT::Server::_AsyncRecvCallback( SocketData* socketData, IOData* ioData, in
 		return;
 	}
 
-	/// TODO : Pkt을 로직스레드로 넘기기. 로직스레드에서 적절한 핸들러 호출할것.
-
-
+	m_logicThreadManager->PushPacket( packet );
 
 	/// Send 완료시 해제
 	ioData = new IOData;

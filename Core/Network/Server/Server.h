@@ -8,7 +8,8 @@
 #include "../SocketData/SocketDataManager.h"
 
 
-class ThreadManager;
+class LogicThreadManager;
+class IOThreadManager;
 
 
 namespace AnT
@@ -18,19 +19,19 @@ namespace AnT
 	{
 	public:
 		/// 생성자
-		Server( ThreadManager* logicThreadManager );
+		Server( LogicThreadManager* logicThreadManager );
 
 		/// 소멸자
 		~Server();
 
 	private:
-		SocketData*         m_serverSockData;            //< 서버 소켓 데이터
-		SocketDataManager   m_clientSocketDataManager;   //< 클라이언트 소켓 데이터 관리자
+		SocketData*           m_serverSockData;            //< 서버 소켓 데이터
+		SocketDataManager     m_clientSocketDataManager;   //< 클라이언트 소켓 데이터 관리자
 
-		IODataPtrVec        m_iODataPtrVec;              //< IOData 관리 벡터
+		IODataPtrVec          m_iODataPtrVec;              //< IOData 관리 벡터
 
-		ThreadManager*      m_ioThreadManager;           //< IOThread 관리 매니저
-		ThreadManager*      m_logicThreadManager;        //< Logicthread 관리 매니저
+		IOThreadManager*      m_ioThreadManager;           //< IOThread 관리 매니저
+		LogicThreadManager*   m_logicThreadManager;        //< Logicthread 관리 매니저
 
 	public:
 		/// 서버시작 함수

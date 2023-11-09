@@ -1,14 +1,3 @@
-# ServerEngine
-서버 엔진 프레임워크
+#  Project F - Dev - C++Server 경로
 
-개발버전 : vs2022
-
-TODO :
-[SERVER] 
-로직스레드로 패킷 넘겨서 적절한 핸들러로 처리하기
-IO스레드가 Logic스레드를 알고 있어야 하나?
-  -> 서버 실행할때 같이 할당하기?
-  
-[CLIENT]
-서버가 사용하는 핸들러 코어를 클라에도 만들기.
-  
+IDE : VisualStudio 2022

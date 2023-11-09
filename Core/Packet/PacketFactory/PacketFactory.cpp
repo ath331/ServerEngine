@@ -26,19 +26,25 @@ bool PacketFactory::IsPacketBaseSize( int receiveSize )
 }
 
 ///////////////////////////////////////////////////////////////////////////
-// @brief     data에서 패킷사이즈 만큼을 추출한다.
+// @brief     data에서 size 만큼 dest로 추출한다.
 ///////////////////////////////////////////////////////////////////////////
-void PacketFactory::_SubData( char* data, char* dest, int receiveSize )
+void PacketFactory::_SubData( char* data, char*& dest, int size )
 {
-	memcpy ( dest, data,  m_packetBaseSize );
+	if ( !data ) return;
+	if ( !dest ) return;
+
+	memcpy ( dest, data, size );
 }
 
 ///////////////////////////////////////////////////////////////////////////
-// @brief     data를 앞으로 move 한다.
+// @brief     data를 size만큼 dest로 move 한다.
 ///////////////////////////////////////////////////////////////////////////
-void PacketFactory::_MoveData( char* data, int size )
+void PacketFactory::_MoveData( char* data, char* dest, int size )
 {
-	memmove( data, data + size, size );
+	if ( !data ) return;
+	if ( !dest ) return;
+
+	memmove( dest, data + size, size );
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -46,16 +52,11 @@ void PacketFactory::_MoveData( char* data, int size )
 ///////////////////////////////////////////////////////////////////////////
 PacketBase* PacketFactory::_MakePacketBase( char* data, int receiveSize )
 {
-	// TODO : 해제 시점 찾기
-	// _SubData()에서 힙이 스택으로 덮어져서 댕글링됨? 그래서 delete할때 터지는듯
-	char* dest = new char;
+	char* dest = new char[ receiveSize ];
 	_SubData( data, dest, receiveSize );
 
 	if ( !dest )
-	{
-		// delete( dest );
 		return nullptr;
-	}
 
 	ReaderStream readerStream( dest );
 
@@ -64,11 +65,11 @@ PacketBase* PacketFactory::_MakePacketBase( char* data, int receiveSize )
 
 	if ( !packet )
 	{
-		// delete( dest );
-		delete( packet );
+		delete[] ( dest );
 		return nullptr;
 	}
 
+	delete[] ( dest );
 	return packet;
 }
 
@@ -83,16 +84,23 @@ PacketBase* PacketFactory::MakePacket( char* data, int receiveSize )
 
 	if ( packetBase->GetSize() < receiveSize )
 	{
-		delete( packetBase );
+		delete[] ( packetBase );
 		return nullptr;
 	}
 
-	PacketBase* packet = new PacketBase;
-	
-	// TODO : 댕글링되는데 다른 방법찾기
-	char* dest = new char;
-	_SubData ( data, dest, packet->GetSize() );
-	_MoveData( data, packet->GetSize()       );
+	char* dest = new char[ packetBase->GetSize() ];
+	_SubData ( data, dest, packetBase->GetSize() );
+	_MoveData( data, data, packetBase->GetSize() );
+
+	PacketBase* packet = CreatePacket( (EPacketId)( packetBase->GetPktId() ) );
+	if ( !packet )
+		return nullptr;
+
+	ReaderStream readerStream( dest );
+	packet->Deserialize( readerStream );
+
+	delete( packetBase );
+	delete[] ( dest );
 
 	return packet;
 }

@@ -44,6 +44,8 @@ void AnT::Client::Send( PacketBase* pkt )
 	pkt->Serialize( ioData->writeStream );
 
 	_AsyncSend( m_serverData.sock, ioData );
+
+	delete( pkt );
 }
 
 ///////////////////////////////////////////////////////////////////////////

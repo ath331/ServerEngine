@@ -16,7 +16,8 @@ int main()
 {
 	AnT::System system;
 
-	ThreadManager logicThreadManager;
+	int logicThreadCount = 1;
+	LogicThreadManager logicThreadManager( logicThreadCount );
 
 	AnT::Server server( &logicThreadManager );
 

@@ -8,28 +8,9 @@
 #include "Network/SocketData/SocketData.h"
 
 
-template< typename Packet, typename ResultPacket >
 class PktHandlerBase
 {
+public:
 	/// 패킷을 핸들링한다.
-	virtual void Handle( SOCKET sock, PacketBase* pktBase )
-	{
-		const Packet* packet = static_cast< Packet* >( pktBase );
-		if ( !packet )
-			return;
-
-		// TODO 이거 흠 초기화는 어디서하고 언제 해제?
-		ResultPacket* resultPacket;
-
-		EResultCode packetResult = OnHandler( sock, *( (Packet*)( pktBase ) ), *( (ResultPacket*)( resultPacket ) ) );
-
-		if ( packetResult != EResultCode::NoResultSend )
-		{
-			// TODO : sock을 받는게 아니라 Send가 가능한 클래스 ( 추후에 User? )로 리저트 바로 Send하게
-		}
-	}
-
-	/// 패킷을 핸들링한다.
-	virtual EResultCode OnHandler( SOCKET sock, const Packet& pktBase, ResultPacket& resultPacket ) = 0;
+	virtual void Handle( SOCKET sock, PacketBasePtr pktBase ) = 0;
 };
-

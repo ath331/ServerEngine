@@ -19,6 +19,9 @@
     <Filter Include="Packet\Login">
       <UniqueIdentifier>{5ffe95dd-7872-466f-9b63-aacad40cab22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LogicThread">
+      <UniqueIdentifier>{ec76456b-d37e-4872-9d6e-941a5112da66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -32,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="Packet\PktHandlerBase.cpp">
       <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicThread\LogicThreadManager.cpp">
+      <Filter>LogicThread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,12 @@
     </ClInclude>
     <ClInclude Include="CorePch.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicThread\LogicThreadManager.h">
+      <Filter>LogicThread</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\PacketHandlerCreateListh.h">
+      <Filter>Packet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

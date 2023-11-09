@@ -117,6 +117,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)\..\Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4828</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +137,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)\..\Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4828</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp" />
+    <ClCompile Include="LogicThread\LogicThreadManager.cpp" />
     <ClCompile Include="Packet\Login\PktLoginHandler.cpp" />
     <ClCompile Include="Packet\PktHandlerBase.cpp" />
     <ClCompile Include="pch.cpp">
@@ -158,8 +163,10 @@
   <ItemGroup>
     <ClInclude Include="CorePch.h" />
     <ClInclude Include="LibraryPch.h" />
+    <ClInclude Include="LogicThread\LogicThreadManager.h" />
     <ClInclude Include="NetWorkPch.h" />
     <ClInclude Include="Packet\Login\PktLoginHandler.h" />
+    <ClInclude Include="Packet\PacketHandlerCreateListh.h" />
     <ClInclude Include="Packet\PktHandlerBase.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
