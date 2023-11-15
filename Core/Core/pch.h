@@ -13,5 +13,6 @@
 #include <vector>
 #include <queue>
 
+#include "AtType.h"
 
 #endif //PCH_H

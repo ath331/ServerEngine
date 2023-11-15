@@ -19,6 +19,9 @@
     <Filter Include="Lock">
       <UniqueIdentifier>{79accf98-e93f-4054-88c6-83d54e1c451f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Time">
+      <UniqueIdentifier>{c8d431a8-b279-48c6-be58-f743f71fdc81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -33,6 +36,12 @@
     <ClInclude Include="Lock\LockGuard.h">
       <Filter>Lock</Filter>
     </ClInclude>
+    <ClInclude Include="AtType.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Time\AtTime.h">
+      <Filter>Time</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
@@ -43,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="Thread\ThreadManager.cpp">
       <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Time\AtTime.cpp">
+      <Filter>Time</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

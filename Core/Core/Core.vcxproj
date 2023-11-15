@@ -153,10 +153,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AtType.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Lock\LockGuard.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Thread\ThreadManager.h" />
+    <ClInclude Include="Time\AtTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
@@ -167,6 +169,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Thread\ThreadManager.cpp" />
+    <ClCompile Include="Time\AtTime.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

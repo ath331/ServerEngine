@@ -9,11 +9,16 @@
 #include "CorePch.h"
 
 
+#include "Core/Time/AtTime.h"
+
+
 ///////////////////////////////////////////////////////////////////////////
 // @brief     프로젝트 main 함수
 ///////////////////////////////////////////////////////////////////////////
 int main()
 {
+	cout << AtTime::GetCurTime().count() << endl;
+
 	AnT::System system;
 
 	int logicThreadCount = 1;
