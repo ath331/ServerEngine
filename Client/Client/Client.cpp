@@ -35,9 +35,9 @@ int main( int argc, char* argv[] )
 		if ( msg.compare( "Exit" ) == 0 )
 			break;
 
-		PktLogin* pktLogin = new PktLogin;
-		pktLogin->SetId( "Test123" );
-		pktLogin->SetPw( 331 );
+		PktLogin pktLogin;
+		pktLogin.SetId( "Test123" );
+		pktLogin.SetPw( 331 );
 
 		client.Send( pktLogin );
 	}

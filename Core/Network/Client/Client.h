@@ -29,6 +29,9 @@ namespace AnT
 		/// Send 한다
 		void Send( PacketBase* pkt );
 
+		/// Send 한다
+		void Send( PacketBase& pkt );
+
 	private:
 		/// 서버 정보
 		SocketData m_serverData;

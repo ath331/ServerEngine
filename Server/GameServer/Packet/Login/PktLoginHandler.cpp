@@ -12,10 +12,11 @@
 ///////////////////////////////////////////////////////////////////////////
 EResultCode PktLoginHandler::_HandlePktLogin(
 	      SOCKET          sock, 
-	const PktLogin&       pktLogin, 
+	      PktLogin&       pktLogin, 
 	      PktLoginResult& pktLoginResult )
 {
-
+	cout << pktLogin.GetId() << endl;
+	cout << pktLogin.GetPw() << endl;
 
 	return EResultCode::Success;
 }

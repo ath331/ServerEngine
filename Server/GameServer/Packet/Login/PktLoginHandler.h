@@ -33,6 +33,6 @@ public:
 
 private:
 	/// 패킷을 핸들링한다.
-	EResultCode _HandlePktLogin( SOCKET sock, const PktLogin& pktLogin, PktLoginResult& pktLoginResult );
+	EResultCode _HandlePktLogin( SOCKET sock, PktLogin& pktLogin, PktLoginResult& pktLoginResult );
 };
 
